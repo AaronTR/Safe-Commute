@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <style name="CustomTheme" parent="android:style/Theme.Dialog">
+        <!-- Many more options available here: https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/res/res/values/themes.xml -->
+        <item name="android:textColorPrimary">#ffff0000</item> <!-- Text Color -->
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowShowWallpaper">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    
+</resources>
