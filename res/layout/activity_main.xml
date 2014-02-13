@@ -1,13 +1,96 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
     android:layout_height="match_parent"
-    tools:context=".MainActivity" >
-
-    <ListView         
-	  android:id="@+id/list"
-	  android:layout_width="match_parent"
-	  android:layout_height="wrap_content" 
-      android:entries="@array/ListItem" /> 
-
-</RelativeLayout>
+    android:shrinkColumns="*"  android:stretchColumns="*" android:background="#000"> 
+    
+    <!-- PHONE IN MOTION TEXT -->
+    <TableRow 
+        android:layout_height="wrap_content" 
+        android:layout_width="fill_parent"
+        android:gravity="center_horizontal" 
+        android:paddingBottom="20.5sp"> 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/phone_in_motion"
+            android:textSize="18dp" 
+            android:layout_span="3"
+            android:padding="18dip" 
+            android:background="#00CCCC"
+            android:textColor="#000"/> 
+    </TableRow>   
+    
+    <!-- Available Apps TEXT -->
+    <TableRow 
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:gravity="center_horizontal">  
+        <TextView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/available_apps"
+            android:textSize="36dp" 
+            android:layout_span="3"
+            android:padding="18dip" 
+            android:background="#B00000"
+            android:textColor="#FFF"/> 
+    </TableRow>
+     
+    <!-- Available Apps IMAGE -->
+    <TableRow 
+        android:layout_height="wrap_content" 
+        android:layout_width="fill_parent"
+        android:paddingBottom="20.5sp"
+        android:gravity="center_horizontal"
+        android:background="#B00000" >  
+        <ImageView 
+            android:id="@+id/settings"
+            android:src="@drawable/settings" />  
+        <ImageView 
+            android:id="@+id/music"
+            android:src="@drawable/music" />
+        <ImageView 
+            android:id="@+id/gmaps"
+            android:src="@drawable/gmaps" />
+    </TableRow> 
+    
+    <!-- Passenger Unlock TEXT -->
+    <TableRow 
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:gravity="center_horizontal"
+        android:paddingTop="20.5sp"
+        >  
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/passenger_unlock"
+            android:textSize="36dp" 
+            android:layout_span="3"
+            android:padding="18dip" 
+            android:background="#FFFF00"
+            android:textColor="#000"/> 
+    </TableRow>
+    
+    <!-- Passenger Unlock IMAGES -->
+    <TableRow 
+        android:layout_height="wrap_content" 
+        android:layout_width="fill_parent" 
+        android:paddingBottom="20.5sp"
+        android:gravity="center_horizontal"
+        android:background="#FFFF00" >  
+        <ImageView 
+            android:id="@+id/image_recognition"
+            android:src="@drawable/camera" />
+             
+        <ImageView 
+            android:id="@+id/bluetooth"
+            android:src="@drawable/bluetooth" />  
+    </TableRow>  
+         
+</TableLayout>
