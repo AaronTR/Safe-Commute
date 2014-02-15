@@ -3,21 +3,10 @@
 
     <string name="app_name">SafeCommute</string>
     <string name="menu_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
     
-    <string name="phone_in_motion">Phone In Motion</string>
-    <string name="available_apps">Available Apps</string>
+	<string name="phone_in_motion">Phone In Motion</string>
+    <string name="available_apps">Available Applications</string>
     <string name="passenger_unlock">Passenger Unlock</string>
-    <string name="emergency_contacts">Emergency Contacts</string>
-    
-    <string name="settings">Settings</string>
-    
-    <string-array name="ListItem">
-        <item >Settings</item>
-        <item >Image Recognition Test</item>
-        <item >Bluetooth Test</item>
-        <item >Accelerometer Test</item>
-        <item >Emergency Contacts</item>       
-    </string-array>
+    <string name="emergency_contacts">Emergency</string>
 
 </resources>

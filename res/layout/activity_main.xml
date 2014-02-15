@@ -5,13 +5,19 @@
     android:layout_height="match_parent"
     android:shrinkColumns="*"  android:stretchColumns="*" android:background="#000"> 
     
-    <!-- PHONE IN MOTION TEXT -->
+    <!-- LOGO -->
     <TableRow 
         android:layout_height="wrap_content" 
         android:layout_width="fill_parent"
-        android:gravity="center_horizontal" 
-        android:paddingBottom="20.5sp"> 
-        <TextView
+        android:gravity="center_horizontal" > 
+        <ImageView
+            android:src="@drawable/logo"
+            android:layout_span="3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            />
+        <!-- TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -20,7 +26,7 @@
             android:layout_span="3"
             android:padding="18dip" 
             android:background="#00CCCC"
-            android:textColor="#000"/> 
+            android:textColor="#000"/--> 
     </TableRow>   
     
     <!-- Available Apps TEXT -->
@@ -91,6 +97,37 @@
         <ImageView 
             android:id="@+id/bluetooth"
             android:src="@drawable/bluetooth" />  
+    </TableRow>  
+    
+    <!-- Emergency TEXT -->
+    <TableRow 
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:gravity="center_horizontal"
+        android:paddingTop="20.5sp"
+        >  
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/emergency_contacts"
+            android:textSize="36dp" 
+            android:layout_span="3"
+            android:padding="18dip" 
+            android:background="#00CC33"
+            android:textColor="#000"/> 
+    </TableRow>
+    
+    <!-- Emergency IMAGE -->
+    <TableRow 
+        android:layout_height="wrap_content" 
+        android:layout_width="fill_parent" 
+        android:paddingBottom="20.5sp"
+        android:gravity="center_horizontal"
+        android:background="#00CC33" >  
+        <ImageView 
+            android:id="@+id/emergency"
+            android:src="@drawable/emergency" />
     </TableRow>  
          
 </TableLayout>
