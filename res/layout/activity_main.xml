@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android" 
     android:layout_width="match_parent" 
     android:layout_height="match_parent"
-    android:shrinkColumns="*"  android:stretchColumns="*" android:background="#000"> 
+    android:shrinkColumns="*"  android:stretchColumns="*" android:background="#000" > 
     
     <!-- LOGO -->
     <TableRow 
@@ -41,8 +41,8 @@
             android:text="@string/available_apps"
             android:textSize="36dp" 
             android:layout_span="3"
-            android:padding="18dip" 
-            android:background="#B00000"
+            android:padding="18dip"
+            android:background="@layout/red1"
             android:textColor="#FFF"/> 
     </TableRow>
      
@@ -51,8 +51,8 @@
         android:layout_height="wrap_content" 
         android:layout_width="fill_parent"
         android:paddingBottom="20.5sp"
-        android:gravity="center_horizontal"
-        android:background="#B00000" >  
+        android:background="@layout/red2" 
+        android:gravity="center_horizontal">  
         <ImageView 
             android:id="@+id/settings"
             android:src="@drawable/settings" />  
@@ -79,8 +79,8 @@
             android:textSize="36dp" 
             android:layout_span="3"
             android:padding="18dip" 
-            android:background="#FFFF00"
-            android:textColor="#000"/> 
+            android:background="@layout/yellow1"
+            android:textColor="#FFF"/> 
     </TableRow>
     
     <!-- Passenger Unlock IMAGES -->
@@ -89,7 +89,7 @@
         android:layout_width="fill_parent" 
         android:paddingBottom="20.5sp"
         android:gravity="center_horizontal"
-        android:background="#FFFF00" >  
+        android:background="@layout/yellow2" >  
         <ImageView 
             android:id="@+id/image_recognition"
             android:src="@drawable/camera" />
@@ -114,8 +114,8 @@
             android:textSize="36dp" 
             android:layout_span="3"
             android:padding="18dip" 
-            android:background="#00CC33"
-            android:textColor="#000"/> 
+            android:background="@layout/green1"
+            android:textColor="#FFF"/> 
     </TableRow>
     
     <!-- Emergency IMAGE -->
@@ -124,7 +124,7 @@
         android:layout_width="fill_parent" 
         android:paddingBottom="20.5sp"
         android:gravity="center_horizontal"
-        android:background="#00CC33" >  
+        android:background="@layout/green2" >  
         <ImageView 
             android:id="@+id/emergency"
             android:src="@drawable/emergency" />
