@@ -80,7 +80,7 @@
             android:layout_span="3"
             android:padding="18dip" 
             android:background="@layout/yellow1"
-            android:textColor="#FFF"/> 
+            android:textColor="#FFF" /> 
     </TableRow>
     
     <!-- Passenger Unlock IMAGES -->
