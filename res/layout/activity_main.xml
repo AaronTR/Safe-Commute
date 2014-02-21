@@ -2,15 +2,16 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android" 
 	android:layout_width="match_parent"
-	android:layout_height="match_parent" >
-	
+	android:layout_height="match_parent"
+	android:orientation="vertical" >
 	<TableLayout 
 	    android:layout_width="match_parent" 
 	    android:layout_height="match_parent"
 	    android:shrinkColumns="*"  android:stretchColumns="*" android:background="#000" > 
-    
+	    
 	    <!-- LOGO -->
 	    <TableRow 
+	        android:id="@+id/titlerow"
 	        android:layout_height="wrap_content" 
 	        android:layout_width="fill_parent"
 	        android:gravity="center_horizontal" > 
@@ -19,22 +20,12 @@
 	            android:layout_span="3"
 	            android:layout_width="match_parent"
 	            android:layout_height="wrap_content"
-	            android:gravity="center_horizontal"
-	            />
-	        <!-- TextView
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:gravity="center_horizontal"
-	            android:text="@string/phone_in_motion"
-	            android:textSize="18dp" 
-	            android:layout_span="3"
-	            android:padding="18dip" 
-	            android:background="#00CCCC"
-	            android:textColor="#000"/--> 
+	            android:gravity="center_horizontal" />
 	    </TableRow>   
 	    
 	    <!-- Available Apps TEXT -->
 	    <TableRow 
+	        android:id="@+id/appstextrow"
 	        android:layout_height="wrap_content"
 	        android:layout_width="fill_parent"
 	        android:gravity="center_horizontal">  
@@ -52,9 +43,9 @@
 	     
 	    <!-- Available Apps IMAGE -->
 	    <TableRow 
+	        android:id="@+id/appsimagerow"
 	        android:layout_height="wrap_content" 
-	        android:layout_width="fill_parent"
-	        android:paddingBottom="20.5sp"
+	        android:layout_width="fill_parent"	        
 	        android:background="@layout/red2" 
 	        android:gravity="center_horizontal">  
 	        <ImageView 
@@ -70,10 +61,10 @@
 	    
 	    <!-- Passenger Unlock TEXT -->
 	    <TableRow 
+	        android:id="@+id/passengertextrow"
 	        android:layout_height="wrap_content"
 	        android:layout_width="fill_parent"
 	        android:gravity="center_horizontal"
-	        android:paddingTop="20.5sp"
 	        >  
 	        <TextView
 	            android:layout_width="fill_parent"
@@ -81,21 +72,21 @@
 	            android:gravity="center_horizontal"
 	            android:text="@string/passenger_unlock"
 	            android:textSize="36dp" 
+	            android:padding="18dip"
 	            android:layout_span="3"
-	            android:padding="18dip" 
 	            android:background="@layout/yellow1"
 	            android:textColor="#FFF"/> 
 	    </TableRow>
 	    
 	    <!-- Passenger Unlock IMAGES -->
 	    <TableRow 
+	        android:id="@+id/passengerimagerow"
 	        android:layout_height="wrap_content" 
-	        android:layout_width="fill_parent" 
-	        android:paddingBottom="20.5sp"
+	        android:layout_width="fill_parent"
 	        android:gravity="center_horizontal"
 	        android:background="@layout/yellow2" >  
 	        <ImageView 
-	            android:id="@+id/image_recognition"
+	            android:id="@+id/camera"
 	            android:src="@drawable/camera" />
 	             
 	        <ImageView 
@@ -104,11 +95,11 @@
 	    </TableRow>  
 	    
 	    <!-- Emergency TEXT -->
-	    <TableRow 
+	    <TableRow
+	        android:id="@+id/emergencytextrow" 
 	        android:layout_height="wrap_content"
 	        android:layout_width="fill_parent"
 	        android:gravity="center_horizontal"
-	        android:paddingTop="20.5sp"
 	        >  
 	        <TextView
 	            android:layout_width="fill_parent"
@@ -116,17 +107,17 @@
 	            android:gravity="center_horizontal"
 	            android:text="@string/emergency_contacts"
 	            android:textSize="36dp" 
+	            android:padding="18dip"
 	            android:layout_span="3"
-	            android:padding="18dip" 
 	            android:background="@layout/green1"
 	            android:textColor="#FFF"/> 
 	    </TableRow>
 	    
 	    <!-- Emergency IMAGE -->
 	    <TableRow 
+	        android:id="@+id/emergencyimagerow"
 	        android:layout_height="wrap_content" 
-	        android:layout_width="fill_parent" 
-	        android:paddingBottom="20.5sp"
+	        android:layout_width="fill_parent"
 	        android:gravity="center_horizontal"
 	        android:background="@layout/green2" >  
 	        <ImageView 
