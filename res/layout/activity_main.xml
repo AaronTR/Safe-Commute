@@ -16,22 +16,15 @@
 	        android:layout_height="wrap_content" 
 	        android:layout_width="fill_parent"
 	        android:gravity="center_horizontal" >
-	    </TableRow>   
+	    </TableRow>  
 	    
 	    <!-- Available Apps TEXT -->
-	    <TableRow>  
-	        <TextView 
-	            android:id="@+id/appstextrow"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:gravity="center_horizontal"
-	            android:text="@string/available_apps"
-	            android:textSize="28sp" 
-	            android:padding="18dip"
-	            android:layout_span="3"
-	            android:background="@layout/red1"
-	            android:textColor="#FFF"/> 
-	    </TableRow>
+	    <TableRow 
+	        android:id="@+id/appstextrow"
+	        android:layout_height="wrap_content" 
+	        android:layout_width="fill_parent"
+	        android:background="@layout/red1" >
+	    </TableRow>   
 	     
 	    <!-- Available Apps IMAGE -->
 	    <TableRow 
@@ -48,18 +41,7 @@
 	        android:id="@+id/passengertextrow"
 	        android:layout_height="wrap_content"
 	        android:layout_width="fill_parent"
-	        android:gravity="center_horizontal"
-	        >  
-	        <TextView
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	            android:gravity="center_horizontal"
-	            android:text="@string/passenger_unlock"
-	            android:textSize="28sp" 
-	            android:padding="18dip"
-	            android:layout_span="3"
-	            android:background="@layout/yellow1"
-	            android:textColor="#FFF"/> 
+	        android:background="@layout/yellow1" >  
 	    </TableRow>
 	    
 	    <!-- Passenger Unlock IMAGES -->
@@ -76,18 +58,7 @@
 	        android:id="@+id/emergencytextrow" 
 	        android:layout_height="wrap_content"
 	        android:layout_width="fill_parent"
-	        android:gravity="center_horizontal"
-	        >  
-	        <TextView
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	            android:gravity="center_horizontal"
-	            android:text="@string/emergency_contacts"
-	            android:textSize="28sp" 
-	            android:padding="18dip"
-	            android:layout_span="3"
-	            android:background="@layout/green1"
-	            android:textColor="#FFF"/> 
+	        android:background="@layout/green1" > 
 	    </TableRow>
 	    
 	    <!-- Emergency IMAGE -->
