@@ -102,7 +102,7 @@ public class MainActivity extends Activity {
 		appsimagerow.addView(musicimage);
 		
 		ImageView mapsimage = new ImageView(this);
-		mapsimage.setImageResource(R.drawable.gmaps);
+		mapsimage.setImageResource(R.drawable.map);
 		mapsimage.setLayoutParams(imageParams);
 		appsimagerow.addView(mapsimage);
 		
