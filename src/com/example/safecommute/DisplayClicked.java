@@ -56,7 +56,7 @@ public class DisplayClicked extends Fragment{
 		ScrollView scroller = new ScrollView(getActivity());
 		TextView text = new TextView(getActivity());
 		scroller.addView(text);
-		text.setText(AlphaMainMenu.TITLES[getShownIndex()]);
+		text.setText(getShownTitle());
 		return scroller;
 		
 		

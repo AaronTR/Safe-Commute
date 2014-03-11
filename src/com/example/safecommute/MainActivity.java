@@ -34,38 +34,8 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);	
 		scalingImages(); // adds tags to all images
 		scalingTexts();
-		
-		
-		
-		
-		OnItemClickListener itemClickListener = new OnItemClickListener() {
-		    
-			@Override
-		    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-		    	
-		    	ImageView itemClicked = (ImageView) v.getTag(position);
-		        showFragment(itemClicked, position);
-		    };
-		    
-		    void showFragment(ImageView pic, int positionIndex) {
-		 // We need to launch a new activity to display
-		 			// the dialog fragment with selected text.
-
-		 			// Create an intent for starting the DetailsActivity
-		 			Intent intent = new Intent();
-
-		 			// explicitly set the activity context and class
-		 			// associated with the intent (context, class)
-		 			intent.setClass(getParent(), MainActivity.DetailsActivity.class);
-
-		 			// pass the current position
-		 			intent.putExtra("index", positionIndex);
-		 			intent.putExtra("title", pic.toString());
-
-		 			startActivity(intent);
-		    }
-		};
 	}
+	
 	
 	
 	@Override
@@ -176,6 +146,7 @@ public class MainActivity extends Activity {
             public void onClick(View arg0) {
                 Toast.makeText(MainActivity.this, ""+settingsimage.getTag(),
                         Toast.LENGTH_SHORT).show();
+                showFragment(settingsimage, (Integer) settingsimage.getTag());
 			}
 		});	
 		position++;
@@ -190,6 +161,7 @@ public class MainActivity extends Activity {
             public void onClick(View arg0) {
                 Toast.makeText(MainActivity.this, ""+ musicimage.getTag(),
                         Toast.LENGTH_SHORT).show();
+                showFragment(musicimage, (Integer) musicimage.getTag());
             }
 		});	
 		position++;
@@ -204,6 +176,7 @@ public class MainActivity extends Activity {
             public void onClick(View arg0) {
                 Toast.makeText(MainActivity.this, ""+mapsimage.getTag(),
                         Toast.LENGTH_SHORT).show();
+                showFragment(mapsimage, (Integer) mapsimage.getTag());
             }
 		});	
 		position++;
@@ -219,6 +192,7 @@ public class MainActivity extends Activity {
             public void onClick(View arg0) {
                 Toast.makeText(MainActivity.this, ""+cameraimage.getTag(),
                         Toast.LENGTH_SHORT).show();
+                showFragment(mapsimage, (Integer) mapsimage.getTag());
             }
 		});	
 		position++;
@@ -233,6 +207,7 @@ public class MainActivity extends Activity {
             public void onClick(View arg0) {
                 Toast.makeText(MainActivity.this, ""+bluetoothimage.getTag(),
                         Toast.LENGTH_SHORT).show();
+                showFragment(bluetoothimage, (Integer) bluetoothimage.getTag());
             }
 		});
 		position++;
@@ -248,12 +223,30 @@ public class MainActivity extends Activity {
             public void onClick(View arg0) {
                 Toast.makeText(MainActivity.this, ""+emergencyimage.getTag(),
                         Toast.LENGTH_SHORT).show();
+                
+                showFragment(emergencyimage, (Integer) emergencyimage.getTag());
             }
 		});	
 				
 	}
 	
-	
+    void showFragment(ImageView pic, int positionIndex) {
+    		// We need to launch a new activity to display
+ 			// the dialog fragment with selected text.
+
+ 			// Create an intent for starting the DetailsActivity
+ 			Intent intent = new Intent(this, DetailsActivity.class);
+
+ 			// explicitly set the activity context and class
+ 			// associated with the intent (context, class)
+ 			//intent.setClass(MainActivity.CONTEXT_IGNORE_SECURITY, MainActivity.DetailsActivity.class);
+ 			
+ 			// pass the current position
+ 			intent.putExtra("index", positionIndex);
+ 			intent.putExtra("title", pic.toString());
+
+ 			startActivity(intent);
+    }
 
 	
 	public static class DetailsActivity extends Activity {
