@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name12345">WinFit12345</string>
+    <string name="app_name">WinFit</string>
+    <string name="menu_settings">Settings</string>
+    <string name="edit_message">Enter a message</string>
+    <string name="button_send">Send</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="about_us">About us:\n
+        Michael Schaddel\n
+        Ryan McDole\n
+        Bryan Haberberger\n
+        Jordan Wisch</string>
+    <string name="title_activity_display_message">My Message</string>
+    <string name="GPS_Button">GPS</string>
+    <string name="Calender_Button">Calender</string>
+    <string name="About_Us">About us</string>
+    <string name="title_activity_main_activity2">MainActivity2</string>   
+    <string name="address">Address:</string>
+    <string name="enable_gps">Enable GPS</string>
+    <string name="enable_gps_dialog">GPS provider not enabled. Would you like to enable it?</string>
+    <string name="latlng">Lat/Long:</string>
+    <string name="unknown">--Unknown--</string>
+    <string name="not_support_gps">Your GPS provider is not enabled</string>
+    <string name="not_support_network">Network provider not supported</string>
+    <string name="use_fine_provider">Fine-grain provider</string>
+    <string name="use_both_providers">Both providers</string>
+    <string name="start_run">Start Run!</string>
+    <string name="distance">Distance:</string>
+    <string name="stop_run">Stop Run!</string>
+    <string name="not_started">--NOT STARTED--</string>
+    <string name="link_to_register">Register</string>
+    <string name="link_to_login">Login</string>
+    <string name="locate_sat">--LOCATING SATELLITES!--</string>
+    <string name="Workout_Button">Create Workout</string>
+    <string name="Lose_Weight_Button">Lose Weight</string>
+    <string name="Muscle_Building_Button">Muscle Building</string>
+    <string name="Mixed_Button">Mixed</string>
+    <string name="Measurement">Measurement: </string>
+    <string name="English">English</string>
+    <string name="Metric">Metric</string>
+    <string name="location_provider">Location Provider: </string>
+    <string name="fine_grain">GPS (Fine but slow)</string>
+    <string name="coarse_grain">WiFi and GPS (Coarse but fast)</string>
+    <color name="red">#FF0000</color>
+    <string name="Clear">Clear</string>
+    <string name="wifi_only"> GPS Disabled. Using WiFi only.</string>
+    <string name="muscle1"> Dumbbell Bench Press: 3x10\n
+			    		Incline Bench Press: 3x10\n
+			    		Tricep Dips: 3x10\n
+			    		Lying Tricep Extension: 3x10\n
+			    		Russian Twists: 3x10 </string>
+	<string name="muscle2"> One Arm Dumbbell Row: 3x10 ea. arm\n
+		    			Dumbbell Reverse Fly: 3x10\n
+		    			Dumbbell Curl: 3x10\n
+		    			Hammer Curl: 3x10\n
+		    			Plank: 3x60 seconds</string>	    			
+	<string name="muscle3"> Dumbbell Squat: 3x10\n
+		    			Dumbbell Lunge: 3x10 ea. leg\n
+		    			Dumbbell Shoulder Press: 3x10\n
+		    			Dumbbell Lateral Raise: 3x10\n
+		    			Toe Touches: 3x10</string>	  	    			
+	<string name= "mixed1"> Dumbbell Bench Press: 3x8\n
+	    				Tricep Dips: 3x8\n
+	    				One Arm Dumbbell Row: 3x8 ea. arm\n
+	    				Dumbbell Curl: 3x8\n
+	    				Push Ups: 50 Total\n</string>
+	<string name="mixed3"> Dumbbell Squat: 3x8\n
+		    			Dumbbell Shoulder Press: 3x8\n
+		    			Dumbbell Lateral Raise: 3x8\n
+		    			Box Jumps: 3x5 increasing heights\n
+		    			Crunches: 75 Total</string>
+	<string name= "choose3days">You can only choose 3 days</string>
+	<string name= "selectdays">Select 3 workout days</string>
+</resources>
