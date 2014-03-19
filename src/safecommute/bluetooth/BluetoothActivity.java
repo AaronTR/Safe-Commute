@@ -1,10 +1,8 @@
 package safecommute.bluetooth;
 
-import java.util.Set;
+import safecommute.main.*;
 
-import com.example.safecommute.R;
-import com.example.safecommute.R.id;
-import com.example.safecommute.R.layout;
+import java.util.Set;
 
 import android.os.Bundle;
 import android.app.Activity;
