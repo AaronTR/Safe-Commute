@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <style name="CustomTheme" parent="android:style/Theme.Dialog">
+    <style name="CustomTheme" parent="android:style/Theme.Holo">
         <!-- Many more options available here: https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/res/res/values/themes.xml -->
         <item name="android:textColorPrimary">#ffff0000</item> <!-- Text Color -->
         <item name="android:colorBackgroundCacheHint">@null</item>
