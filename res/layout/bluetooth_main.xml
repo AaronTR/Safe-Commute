@@ -1,0 +1,91 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF"
+    tools:context=".MainActivity" >
+
+    <TextView
+        android:id="@+id/out"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="" >
+    </TextView>
+
+    <Button
+        android:id="@+id/turnOnButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="49dp"
+        android:text="TURN_ON" />
+
+    <Button
+        android:id="@+id/discoverButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/turnOnButton"
+        android:layout_alignBottom="@+id/turnOnButton"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:text="DISCOVERABLE" />
+
+    <Button
+        android:id="@+id/turnOffButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/turnOnButton"
+        android:layout_below="@+id/turnOnButton"
+        android:layout_marginTop="30dp"
+        android:text="TURN_OFF" />
+
+    <Button
+        android:id="@+id/scanDevicesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/turnOffButton"
+        android:layout_alignBottom="@+id/turnOffButton"
+        android:layout_alignLeft="@+id/discoverButton"
+        android:text="SCAN" />
+
+    <ListView
+        android:id="@+id/deviceList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/deviceTextView"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/pairedList" >
+
+    </ListView>
+
+    <ListView
+        android:id="@+id/pairedList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pairedTextView"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@+id/deviceList" >
+
+    </ListView>
+
+    <TextView
+        android:id="@+id/deviceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/scanDevicesButton"
+        android:layout_below="@+id/scanDevicesButton"
+        android:layout_marginTop="16dp"
+        android:text="Devices in Range" />
+
+    <TextView
+        android:id="@+id/pairedTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/deviceTextView"
+        android:layout_alignBottom="@+id/deviceTextView"
+        android:layout_alignLeft="@+id/turnOffButton"
+        android:text="Paired Devices" />
+
+</RelativeLayout>
