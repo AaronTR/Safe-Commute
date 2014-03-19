@@ -1,4 +1,4 @@
-package safecommute;
+package safecommute.main;
 
 import com.example.safecommute.R;
 
