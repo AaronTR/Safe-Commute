@@ -10,13 +10,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 
-public class AlphaDisplayClicked extends Fragment{
+public class DisplayClicked extends Fragment{
 
 	// Create a new instance of DetailsFragment, initialized to show the
 	// text at 'index'.
 
-	public static AlphaDisplayClicked newInstance(int index, String title) {
-		AlphaDisplayClicked adc = new AlphaDisplayClicked();
+	public static DisplayClicked newInstance(int index, String title) {
+		DisplayClicked adc = new DisplayClicked();
 
 		// Supply index input as an argument.
 		Bundle args = new Bundle();
@@ -49,14 +49,14 @@ public class AlphaDisplayClicked extends Fragment{
 			Bundle savedInstanceState) {
 
 
-		// programmatically create a scrollview and texview for the text in
+		// programmatically create a scrollview and textview for the text in
 		// the container/fragment layout. Set up the properties and add the
 		// view.
 
 		ScrollView scroller = new ScrollView(getActivity());
 		TextView text = new TextView(getActivity());
 		scroller.addView(text);
-		text.setText(AlphaMainMenu.TITLES[getShownIndex()]);
+		text.setText(getShownTitle());
 		return scroller;
 		
 		
