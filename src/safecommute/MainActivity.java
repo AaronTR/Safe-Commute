@@ -1,4 +1,6 @@
-package com.example.safecommute;
+package safecommute;
+
+import com.example.safecommute.R;
 
 import android.os.Bundle;
 import android.app.Activity;

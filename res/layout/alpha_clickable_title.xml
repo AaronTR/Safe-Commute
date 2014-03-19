@@ -7,6 +7,6 @@
         android:id="@+id/titles"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="com.example.safecommute.AlphaMainMenu" />
+        class="safecommute.AlphaMainMenu" />
 
 </FrameLayout>

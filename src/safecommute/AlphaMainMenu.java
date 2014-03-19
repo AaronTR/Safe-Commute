@@ -1,4 +1,4 @@
-package com.example.safecommute;
+package safecommute;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
