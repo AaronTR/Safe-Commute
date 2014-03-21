@@ -34,7 +34,7 @@ public class BluetoothActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.bluetooth_main);
 
 		final TextView out = (TextView) findViewById(R.id.out);
 		final Button turnOnButton = (Button) findViewById(R.id.turnOnButton);

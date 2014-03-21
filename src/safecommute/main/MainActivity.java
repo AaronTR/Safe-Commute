@@ -1,5 +1,5 @@
 package safecommute.main;
-import safecommute.bluetooth.BluetoothActivity;
+import safecommute.bluetooth.*;
 
 
 import android.os.Bundle;
@@ -32,17 +32,14 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
-		//setContentView(R.layout.table_layout);
-		//setContentView(R.layout.activity_main);	
-		//scalingImages(); // adds tags to all images
-		//scalingTexts();
-		safecommute.bluetooth.BluetoothActivity bt = new safecommute.bluetooth.BluetoothActivity();
-		//bt.
 		
+		setContentView(R.layout.activity_main);	
+		scalingImages(); // adds tags to all images
+		scalingTexts();
 		
-	}
-	
-	
+		//Intent myIntent = new Intent(MainActivity.this, BluetoothActivity.class);
+		//MainActivity.this.startActivity(myIntent);		
+	}	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -236,18 +233,16 @@ public class MainActivity extends Activity {
 				
 	}
 	
-	void showBluetooth(ImageView pic, int positionIndex) {
+	void showBluetooth(ImageView pic, int positionIndex) { // Open Bluetooth
 		
-		//safecommute.bluetooth.BluetoothActivity bt = new safecommute.bluetooth.BluetoothActivity();
-		Intent intent = new Intent(this, new safecommute.bluetooth.BluetoothActivity().getClass());
+		Intent intent = new Intent(this, BluetoothActivity.class);
 		
 		intent.putExtra("index", positionIndex);
 		intent.putExtra("title", pic.toString());
 		
-		startActivity(intent);
-		
-		
+		startActivity(intent);		
 	}
+	
     void showFragment(ImageView pic, int positionIndex) {
     		// We need to launch a new activity to display
  			// the dialog fragment with selected text.
@@ -288,6 +283,5 @@ public class MainActivity extends Activity {
 				.add(android.R.id.content, dispClick).commit();
 			}
 		}
-}
-
+	}
 }

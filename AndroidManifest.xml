@@ -7,6 +7,8 @@
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="19" />
+    
+    <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application
         android:allowBackup="true"
@@ -23,14 +25,8 @@
             </intent-filter>
         </activity>
         <activity android:name="safecommute.main.MainActivity$DetailsActivity" />
-        <activity android:name="safecommute.bluetooth.BluetoothActivity" 
-            	  android:label="@string/bluetooth_activity_name"
-            	  android:parentActivityName="safecommute.main.MainActivity" >
-            	  <meta-data
-            	      android:name="android.support.PARENT_ACTIVITY"
-            	      android:value="com.example.safecommute.MainActivity"  
-            	   />
-          </activity>
+        <activity android:name="safecommute.bluetooth.BluetoothActivity" />
+        
     </application>
 
 </manifest>
