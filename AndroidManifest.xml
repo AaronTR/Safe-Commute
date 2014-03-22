@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:theme="@style/CustomTheme" >
         <activity
-            android:name="safecommute.main.MainActivity"
+            android:name="safecommute.main.LockScreen"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="safecommute.main.MainActivity$DetailsActivity" />
+        <activity android:name="safecommute.main.LockScreen$DetailsActivity" />
         <activity android:name="safecommute.bluetooth.BluetoothActivity" />
         
     </application>
