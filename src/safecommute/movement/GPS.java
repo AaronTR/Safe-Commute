@@ -43,11 +43,13 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.app.Activity;
 import android.view.View;
+/**
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+*/
 
 import java.io.IOException;
 import java.util.List;
@@ -57,7 +59,7 @@ import java.util.TimerTask;
 import java.math.*;
 
 public class GPS extends FragmentActivity implements SensorEventListener {
-    private TextView mDistance;
+    //private TextView mDistance;
     private LocationManager mLocationManager;
     private Handler mHandler;
     private boolean mGeocoderAvailable;
@@ -114,7 +116,7 @@ public class GPS extends FragmentActivity implements SensorEventListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gps_page);
         
-        ((TextView)findViewById(R.id.timer)).setText("00:00:00");
+        //((TextView)findViewById(R.id.timer)).setText("00:00:00");
         
 //        SharedPreferences prefs = getSharedPreferences("winFitPref", 0);
 
@@ -131,7 +133,7 @@ public class GPS extends FragmentActivity implements SensorEventListener {
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case UPDATE_DISTANCE:
-                    	mDistance.setText((String) msg.obj);
+                    	//mDistance.setText((String) msg.obj);
                     	break;
                 }
             }
@@ -178,7 +180,7 @@ public class GPS extends FragmentActivity implements SensorEventListener {
         	WifiManager wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE); 
         	wifiManager.setWifiEnabled(true);
         	final boolean wifiEnabled1 = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        	((TextView)findViewById(R.id.accelA1)).setText(String.valueOf(wifiEnabled1));
+        	//((TextView)findViewById(R.id.accelA1)).setText(String.valueOf(wifiEnabled1));
         	//wifiManager.setWifiEnabled(false);
             //new EnableGpsDialogFragment().show(getSupportFragmentManager(), "enableGpsDialog");
         }	
@@ -207,7 +209,7 @@ public class GPS extends FragmentActivity implements SensorEventListener {
         Location networkLocation = null;
         mLocationManager.removeUpdates(listener);
         if(!mDistanceAdd)
-        	mDistance.setText("--NOT STARTED--");
+        	//mDistance.setText("--NOT STARTED--");
         // Get fine location updates only.
         
 /**        if (mUseFine) {
@@ -391,11 +393,11 @@ public class GPS extends FragmentActivity implements SensorEventListener {
 	                else if (wifi != null) 
 	                    firstLocation = wifi;
 	                else
-	                	mDistance.setText("--LOCATING SATELLITES!--");
+	                	//mDistance.setText("--LOCATING SATELLITES!--");
 //	            }
 	    	
 	    	if (firstLocation == null)
-	    		mDistance.setText("--LOCATING SATELLITES!--");
+	    		//mDistance.setText("--LOCATING SATELLITES!--");
 	
 	    	ClickTimerStart(v);    	
     	}
@@ -430,7 +432,7 @@ public class GPS extends FragmentActivity implements SensorEventListener {
     	if(hrs < 10)
     		hours = "0" + hours;
     	
-    	((TextView)findViewById(R.id.timer)).setText(hours + ":" + minutes + ":" + seconds);
+    	//((TextView)findViewById(R.id.timer)).setText(hours + ":" + minutes + ":" + seconds);
     }
         
     private Runnable startTimer = new Runnable(){
@@ -465,8 +467,6 @@ public class GPS extends FragmentActivity implements SensorEventListener {
 	    		  Toast.makeText(this, "Bumpin'", Toast.LENGTH_SHORT).show();
 	    		  startDistanceAdder(mDistance);
 	    	  }
-	    	  ((TextView)findViewById(R.id.accelM1)).setText(String.valueOf(maximum));
-	    	  ((TextView)findViewById(R.id.accelA1)).setText(String.valueOf(avg_acc));
     	  }
     	}
 
