@@ -1,4 +1,4 @@
-package safecommute;
+package safecommute.main;
 
 import android.app.Fragment;
 import android.os.Bundle;

@@ -1,13 +1,18 @@
-package safecommute;
+package safecommute.main;
+import java.io.File;
 
-import com.example.safecommute.R;
+import safecommute.bluetooth.*;
 
+
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -27,18 +32,16 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class LockScreen extends Activity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
-		//setContentView(R.layout.table_layout);
-		setContentView(R.layout.activity_main);	
+		
+		setContentView(R.layout.lockscreen_main);	
 		scalingImages(); // adds tags to all images
-		scalingTexts();
-	}
-	
-	
+		scalingTexts();	
+	}	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -53,7 +56,6 @@ public class MainActivity extends Activity {
 		int screenWidth = display.getWidth();  // screen width
 		int screenHeight = display.getHeight();  // screen height
 		int textHeight = screenHeight/20; // new text height
-		
 		
 		
 		// Assigning table rows
@@ -73,7 +75,8 @@ public class MainActivity extends Activity {
 		passengertext.setLayoutParams(textParams);
 		passengertext.setGravity(Gravity.CENTER);
 		passengertext.setTextColor(Color.WHITE);
-		passengertext.setTextSize(16 * getResources().getDisplayMetrics().density);		
+		passengertext.setTypeface(Typeface.SERIF);
+		passengertext.setTextSize(16 * getResources().getDisplayMetrics().density);	
 		passengertextrow.addView(passengertext);
 		
 		// Format and add "Available Applications" text
@@ -82,6 +85,7 @@ public class MainActivity extends Activity {
 		appstext.setLayoutParams(textParams);
 		appstext.setGravity(Gravity.CENTER);
 		appstext.setTextColor(Color.WHITE);
+		appstext.setTypeface(Typeface.SERIF);
 		appstext.setTextSize(16 * getResources().getDisplayMetrics().density);		
 		appstextrow.addView(appstext);
 		
@@ -91,6 +95,7 @@ public class MainActivity extends Activity {
 		emergencytext.setLayoutParams(textParams);
 		emergencytext.setGravity(Gravity.CENTER);
 		emergencytext.setTextColor(Color.WHITE);
+		emergencytext.setTypeface(Typeface.SERIF);
 		emergencytext.setTextSize(16 * getResources().getDisplayMetrics().density);		
 		emergencytextrow.addView(emergencytext);		
 	}
@@ -143,10 +148,10 @@ public class MainActivity extends Activity {
 		settingsimage.setLayoutParams(imageParams);
 		settingsimage.setTag(position);
 		appsimagerow.addView(settingsimage);
-		settingsimage.setOnClickListener(new OnClickListener() {
+		settingsimage.setOnClickListener(new OnClickListener() { // Onclick for settings image
 			@Override
             public void onClick(View arg0) {
-                Toast.makeText(MainActivity.this, ""+settingsimage.getTag(),
+                Toast.makeText(LockScreen.this, ""+settingsimage.getTag(),
                         Toast.LENGTH_SHORT).show();
                 showFragment(settingsimage, (Integer) settingsimage.getTag());
 			}
@@ -158,12 +163,22 @@ public class MainActivity extends Activity {
 		musicimage.setLayoutParams(imageParams);
 		appsimagerow.addView(musicimage);
 		musicimage.setTag(position);
-		musicimage.setOnClickListener(new OnClickListener() {
+		musicimage.setOnClickListener(new OnClickListener() { // Onclick for music image
 			@Override
             public void onClick(View arg0) {
-                Toast.makeText(MainActivity.this, ""+ musicimage.getTag(),
+                /* Toast.makeText(LockScreen.this, ""+ musicimage.getTag(),
                         Toast.LENGTH_SHORT).show();
-                showFragment(musicimage, (Integer) musicimage.getTag());
+                showFragment(musicimage, (Integer) musicimage.getTag()); */
+				
+				/*Intent intent = new Intent();  
+	            intent.setAction(android.content.Intent.ACTION_VIEW);  
+	            File file = new File(MediaStore.Audio.Media.DATA);  
+	            intent.setDataAndType(Uri.fromFile(file), "audio/*");  
+	            startActivity(intent);*/
+				
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse("market://details?id=com.example.android"));
+				startActivity(intent);
             }
 		});	
 		position++;
@@ -173,10 +188,10 @@ public class MainActivity extends Activity {
 		mapsimage.setLayoutParams(imageParams);
 		mapsimage.setTag(position);
 		appsimagerow.addView(mapsimage);
-		mapsimage.setOnClickListener(new OnClickListener() {
+		mapsimage.setOnClickListener(new OnClickListener() { // Onclick for maps image
 			@Override
             public void onClick(View arg0) {
-                Toast.makeText(MainActivity.this, ""+mapsimage.getTag(),
+                Toast.makeText(LockScreen.this, ""+mapsimage.getTag(),
                         Toast.LENGTH_SHORT).show();
                 showFragment(mapsimage, (Integer) mapsimage.getTag());
             }
@@ -189,10 +204,10 @@ public class MainActivity extends Activity {
 		cameraimage.setLayoutParams(imageParams);
 		passengerimagerow.addView(cameraimage);
 		cameraimage.setTag(position);
-		cameraimage.setOnClickListener(new OnClickListener() {
+		cameraimage.setOnClickListener(new OnClickListener() { // Onclick for camera image
 			@Override
             public void onClick(View arg0) {
-                Toast.makeText(MainActivity.this, ""+cameraimage.getTag(),
+                Toast.makeText(LockScreen.this, ""+cameraimage.getTag(),
                         Toast.LENGTH_SHORT).show();
                 showFragment(mapsimage, (Integer) mapsimage.getTag());
             }
@@ -204,12 +219,12 @@ public class MainActivity extends Activity {
 		bluetoothimage.setLayoutParams(imageParams);
 		bluetoothimage.setTag(position);
 		passengerimagerow.addView(bluetoothimage);
-		bluetoothimage.setOnClickListener(new OnClickListener() {
+		bluetoothimage.setOnClickListener(new OnClickListener() { // Onclick for bluetooth image
 			@Override
             public void onClick(View arg0) {
-                Toast.makeText(MainActivity.this, ""+bluetoothimage.getTag(),
+                Toast.makeText(LockScreen.this, ""+bluetoothimage.getTag(),
                         Toast.LENGTH_SHORT).show();
-                showFragment(bluetoothimage, (Integer) bluetoothimage.getTag());
+                showBluetooth(bluetoothimage, (Integer) bluetoothimage.getTag());
             }
 		});
 		position++;
@@ -220,16 +235,26 @@ public class MainActivity extends Activity {
 		emergencyimage.setLayoutParams(imageParams);
 		emergencyimage.setTag(position);
 		emergencyimagerow.addView(emergencyimage);
-		emergencyimage.setOnClickListener(new OnClickListener() {
+		emergencyimage.setOnClickListener(new OnClickListener() { // Onclick for emergency image
 			@Override
             public void onClick(View arg0) {
-                Toast.makeText(MainActivity.this, ""+emergencyimage.getTag(),
+                Toast.makeText(LockScreen.this, ""+emergencyimage.getTag(),
                         Toast.LENGTH_SHORT).show();
                 
                 showFragment(emergencyimage, (Integer) emergencyimage.getTag());
             }
 		});	
 				
+	}
+	
+	void showBluetooth(ImageView pic, int positionIndex) { // Open Bluetooth
+		
+		Intent intent = new Intent(this, BluetoothActivity.class);
+		
+		intent.putExtra("index", positionIndex);
+		intent.putExtra("title", pic.toString());
+		
+		startActivity(intent);		
 	}
 	
     void showFragment(ImageView pic, int positionIndex) {
@@ -241,7 +266,7 @@ public class MainActivity extends Activity {
 
  			// explicitly set the activity context and class
  			// associated with the intent (context, class)
- 			//intent.setClass(MainActivity.CONTEXT_IGNORE_SECURITY, MainActivity.DetailsActivity.class);
+ 			//intent.setClass(LockScreen.CONTEXT_IGNORE_SECURITY, LockScreen.DetailsActivity.class);
  			
  			// pass the current position
  			intent.putExtra("index", positionIndex);
@@ -272,6 +297,5 @@ public class MainActivity extends Activity {
 				.add(android.R.id.content, dispClick).commit();
 			}
 		}
-}
-
+	}
 }

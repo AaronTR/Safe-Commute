@@ -8,5 +8,6 @@
     <string name="available_apps">Available Applications</string>
     <string name="passenger_unlock">Passenger Unlock</string>
     <string name="emergency_contacts">Emergency</string>
+    <string name="bluetooth_activity_name">bluetooth object</string>
 
 </resources>

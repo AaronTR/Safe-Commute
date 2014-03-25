@@ -1,10 +1,8 @@
 package safecommute.bluetooth;
 
-import java.util.Set;
+import safecommute.main.*;
 
-import com.example.safecommute.R;
-import com.example.safecommute.R.id;
-import com.example.safecommute.R.layout;
+import java.util.Set;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -36,7 +34,7 @@ public class BluetoothActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.bluetooth_main);
 
 		final TextView out = (TextView) findViewById(R.id.out);
 		final Button turnOnButton = (Button) findViewById(R.id.turnOnButton);
