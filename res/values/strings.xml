@@ -9,5 +9,8 @@
     <string name="passenger_unlock">Passenger Unlock</string>
     <string name="emergency_contacts">Emergency</string>
     <string name="bluetooth_activity_name">bluetooth object</string>
+    
+    <string name="wifi_only"> GPS Disabled. Using WiFi only.</string>
+    <string name="not_support_network">Network provider not supported</string>
 
 </resources>

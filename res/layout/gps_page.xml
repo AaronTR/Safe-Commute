@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:fillViewport="true"
+  android:id="@+id/GPS_page">
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff" >
+
+<LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+	android:background="#ffffff" >
+
+    <TextView
+        android:id="@+id/label_distance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Distance:"
+        android:textSize="22sp" 
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/distance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="28sp" 
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time:"
+        android:textSize="20sp" 
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/timer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="28sp" 
+        android:textColor="#000000" />
+    
+    <TextView
+        android:id="@+id/accelM"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Max Acceleration:"
+        android:textSize="20sp" 
+        android:textColor="#000000" />
+    
+    <TextView
+        android:id="@+id/accelM1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp" 
+        android:textColor="#000000" />
+    
+    <TextView
+        android:id="@+id/accelA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Average Acceleration:"
+        android:textSize="20sp" 
+        android:textColor="#000000" />
+    
+    <TextView
+        android:id="@+id/accelA1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp" 
+        android:textColor="#000000" />
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/start_run"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="160sp"
+            android:onClick="onClickSensorRead"
+            android:text="Start Run" />
+
+        <Button
+            android:id="@+id/stop_run"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="160sp"
+            android:onClick="stopDistanceAdder"
+            android:text="Stop Run" />
+    </LinearLayout>
+    
+</LinearLayout>
+
+</RelativeLayout>
+</ScrollView>

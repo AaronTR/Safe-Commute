@@ -2,6 +2,7 @@ package safecommute.main;
 import java.io.File;
 
 import safecommute.bluetooth.*;
+import safecommute.movement.*;
 
 
 import android.net.Uri;
@@ -153,7 +154,7 @@ public class LockScreen extends Activity {
             public void onClick(View arg0) {
                 Toast.makeText(LockScreen.this, ""+settingsimage.getTag(),
                         Toast.LENGTH_SHORT).show();
-                showFragment(settingsimage, (Integer) settingsimage.getTag());
+                showMovement(settingsimage, (Integer) settingsimage.getTag());
 			}
 		});	
 		position++;
@@ -245,6 +246,16 @@ public class LockScreen extends Activity {
             }
 		});	
 				
+	}
+	
+	void showMovement(ImageView pic, int positionIndex) { // Open Bluetooth
+		
+		Intent intent = new Intent(this, GPS.class);
+		
+		intent.putExtra("index", positionIndex);
+		intent.putExtra("title", pic.toString());
+		
+		startActivity(intent);		
 	}
 	
 	void showBluetooth(ImageView pic, int positionIndex) { // Open Bluetooth
