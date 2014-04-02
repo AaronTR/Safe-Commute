@@ -43,6 +43,9 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.app.Activity;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
 /**
 import android.widget.Button;
 import android.widget.TextView;
@@ -58,8 +61,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.math.*;
 
+import safecommute.main.*;
+
 public class GPS extends FragmentActivity implements SensorEventListener {
-    //private TextView mDistance;
+    private TextView mDistance;
     private LocationManager mLocationManager;
     private Handler mHandler;
     private boolean mGeocoderAvailable;
