@@ -11,7 +11,21 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />       
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.CAMERA" />
+	
+	<uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.front.autofocus"
+        android:required="false" />
     
     <application
         android:allowBackup="true"
@@ -30,6 +44,7 @@
         <activity android:name="safecommute.main.LockScreen$DetailsActivity" />
         <activity android:name="safecommute.bluetooth.BluetoothActivity" />
         <activity android:name="safecommute.movement.GPS" />
+        <activity android:name="safecommute.imagerecognition.CameraActivity" />
         
     </application>
 </manifest>

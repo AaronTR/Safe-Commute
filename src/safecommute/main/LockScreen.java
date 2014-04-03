@@ -1,39 +1,26 @@
 package safecommute.main;
-import java.io.File;
-
-import safecommute.bluetooth.*;
-import safecommute.movement.*;
-
-
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
+import safecommute.bluetooth.BluetoothActivity;
+import safecommute.imagerecognition.CameraActivity;
+import safecommute.movement.GPS;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.Typeface;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.util.TypedValue;
+import android.net.Uri;
+import android.os.Bundle;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class LockScreen extends Activity {
+	
+	public static final int CAMERA_REQUEST_CODE = 24;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -208,9 +195,7 @@ public class LockScreen extends Activity {
 		cameraimage.setOnClickListener(new OnClickListener() { // Onclick for camera image
 			@Override
             public void onClick(View arg0) {
-                Toast.makeText(LockScreen.this, ""+cameraimage.getTag(),
-                        Toast.LENGTH_SHORT).show();
-                showFragment(mapsimage, (Integer) mapsimage.getTag());
+                showCameraView(cameraimage, (Integer)cameraimage.getTag());
             }
 		});	
 		position++;
@@ -265,6 +250,8 @@ public class LockScreen extends Activity {
 		intent.putExtra("index", positionIndex);
 		intent.putExtra("title", pic.toString());
 		
+		Toast.makeText(getApplicationContext(), "class name: " + BluetoothActivity.class, Toast.LENGTH_SHORT).show();
+		
 		startActivity(intent);		
 	}
 	
@@ -284,6 +271,26 @@ public class LockScreen extends Activity {
  			intent.putExtra("title", pic.toString());
 
  			startActivity(intent);
+    }
+    
+    void showCameraView(ImageView pic, int positionIndex) {
+    	Intent intent = new Intent(this, CameraActivity.class);
+    	startActivityForResult(intent, CAMERA_REQUEST_CODE);
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	if(requestCode == CAMERA_REQUEST_CODE) {
+    		if(resultCode == Activity.RESULT_OK) {
+    			
+    			/* gets whether or not the camera view activity successfully recognized image,
+    			 * defaults to false 
+    			 */
+    			boolean acceptable = data.getBooleanExtra(CameraActivity.EXTRA_LABEL, false);
+    			String text = acceptable ? "Image recognized!" : "Image not recognized. Please try again.";
+    			Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+    		}
+    	}
     }
 
 	
