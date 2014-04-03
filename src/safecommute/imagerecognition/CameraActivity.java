@@ -123,6 +123,7 @@ public class CameraActivity extends Activity implements CvCameraViewListener2, O
 		mOpenCvCameraView.takePicture();
 		while(imageData == null) {
 			try {
+				Log.d(TAG, "Thread Sleeping for " + DEFAULT_SLEEP_TIME);
 				Thread.sleep(DEFAULT_SLEEP_TIME);
 				imageData = mOpenCvCameraView.getImageData();
 			}

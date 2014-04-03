@@ -1,8 +1,5 @@
 package safecommute.imagerecognition;
 
-
-import java.io.IOException;
-
 import org.opencv.android.JavaCameraView;
 
 import android.content.Context;
@@ -10,7 +7,6 @@ import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.Toast;
 
 public class MyCameraView extends JavaCameraView implements PictureCallback{
 
