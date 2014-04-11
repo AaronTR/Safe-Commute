@@ -21,7 +21,6 @@ public class MyCameraView extends JavaCameraView implements PictureCallback{
     public MyCameraView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
-        //did not like passing in object, might have to use factory if necessary
     }
 
     //taken from opencv tutorial
@@ -42,15 +41,12 @@ public class MyCameraView extends JavaCameraView implements PictureCallback{
  
     @Override
     public void onPictureTaken(byte[] data, Camera camera) {
-        Log.i(TAG, "Saving a bitmap to file");
         
         // The camera preview was automatically stopped. Start it again.
         mCamera.startPreview();
         mCamera.setPreviewCallback(this);
         
-        if(data != null) {
-        	this.imageData = data.clone();
-        }
+        this.imageData = data.clone();
     }
     
     public byte[] getImageData() {

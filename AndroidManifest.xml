@@ -44,7 +44,9 @@
         <activity android:name="safecommute.main.LockScreen$DetailsActivity" />
         <activity android:name="safecommute.bluetooth.BluetoothActivity" />
         <activity android:name="safecommute.movement.GPS" />
-        <activity android:name="safecommute.imagerecognition.CameraActivity" />
+        <activity 
+            android:name="safecommute.imagerecognition.CameraActivity"
+            android:screenOrientation="landscape" />
         
     </application>
 </manifest>

@@ -133,17 +133,23 @@ public class ConcreteImageProcessor implements ImageProcessor{
 		mDetector.detect(testMat, testKeypoints);
 		Mat testDesc = new Mat();
 		mExtractor.compute(testMat, testKeypoints, testDesc);
-		
+		testKeypoints.release();
+		testMat.release();
 		
 		Mat imageMat = image.toMat();
 		MatOfKeyPoint keypoints = new MatOfKeyPoint();
 		mDetector.detect(imageMat, keypoints);
-		
 		Mat descriptors = new Mat();
 		mExtractor.compute(imageMat, keypoints, descriptors);
+		keypoints.release();
+		imageMat.release();
 		
 		MatOfDMatch matches = new MatOfDMatch();
 		mMatcher.match(testDesc, descriptors, matches);
+		matches.release();
+		descriptors.release();
+		testDesc.release();
+		
 		
 	}
 
@@ -155,40 +161,12 @@ public class ConcreteImageProcessor implements ImageProcessor{
 	@Override
 	public double calculateSimilarityPercentage() {
 		// TODO Auto-generated method stub
-		return 100;
+		return 100.0;
 	}
 
 	@Override
 	public Image resizeImage(Image image) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-	
-	//for alpha only
-	public Bitmap createComparisonImage(Mat image, MatOfKeyPoint imageKeypoints, Mat testImage, MatOfKeyPoint testKeypoints, MatOfDMatch matches) {
-		Mat temp = new Mat();
-		Imgproc.cvtColor(image, temp, Imgproc.COLOR_RGBA2RGB);
-		Mat tempTest = new Mat();
-		Imgproc.cvtColor(testImage, tempTest, Imgproc.COLOR_RGBA2RGB);
-		Mat out = new Mat();
-		Mat rgb = new Mat();
-		
-		Scalar green = new Scalar(0,255,0);
-		Scalar red = new Scalar(255, 0, 0);
-		
-		Features2d.drawMatches(temp, imageKeypoints, tempTest, testKeypoints, matches, rgb, green, red, null, 0);
-		Imgproc.cvtColor(rgb, out, Imgproc.COLOR_RGB2RGBA);
-		Bitmap bm = Bitmap.createBitmap(out.cols(), out.rows(), Bitmap.Config.ARGB_8888);
-		Utils.matToBitmap(out, bm);
-		rgb.release();
-		out.release();
-		tempTest.release();
-		temp.release();
-		
-		return bm;
-	}
-	
-	public Bitmap getImageWithKeypoints() {
-		return this.comparisonImage;
 	}
 }

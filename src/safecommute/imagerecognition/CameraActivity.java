@@ -22,6 +22,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 public class CameraActivity extends Activity implements CvCameraViewListener2, OnTouchListener{
 	
@@ -30,6 +31,7 @@ public class CameraActivity extends Activity implements CvCameraViewListener2, O
 	private static final int MATCHER_ID = DescriptorMatcher.BRUTEFORCE;
 	private static final int DETECTOR_ID = FeatureDetector.ORB;
 	private static final int DEFAULT_SLEEP_TIME = 100;
+	private static final int MAX_SLEEP_TIME = 10000;
 	private static final double ACCEPTABLE_THRESHOLD = 80.0;
 	
 	public static final String EXTRA_LABEL = "doesntmatter";
@@ -54,6 +56,7 @@ public class CameraActivity extends Activity implements CvCameraViewListener2, O
 	    }
 	};
 	
+	//this is necessary. not sure why
 	static {
 	    if (!OpenCVLoader.initDebug()) {
 	        // Handle initialization error
@@ -118,51 +121,56 @@ public class CameraActivity extends Activity implements CvCameraViewListener2, O
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-        //TODO take image and process
-		byte[] imageData = null;
-		mOpenCvCameraView.takePicture();
-		while(imageData == null) {
-			try {
-				Log.d(TAG, "Thread Sleeping for " + DEFAULT_SLEEP_TIME);
-				Thread.sleep(DEFAULT_SLEEP_TIME);
-				imageData = mOpenCvCameraView.getImageData();
-			}
-			catch(InterruptedException ie) {
-				Log.d(TAG, "Thread inturrupted");
-				ie.printStackTrace();
-			}
-		}
-		Image image = new Image(imageData);
-		
+			
 		ImageProcessor processor = new ConcreteImageProcessor(getApplicationContext() 
-				, EXTRACTOR_ID, MATCHER_ID, DETECTOR_ID);
-		new AsyncImageProcessor(this, processor).execute(image);
+					, EXTRACTOR_ID, MATCHER_ID, DETECTOR_ID);
+		new AsyncImageProcessor(this).execute(processor);
 
         return false;
 	}
 	
-	private class AsyncImageProcessor extends AsyncTask<Image, String, Boolean> {
+	private class AsyncImageProcessor extends AsyncTask<ImageProcessor, String, Boolean> {
 		
-		//for alpha display only
-		private ImageProcessor aImageProcessor;
 		private ProgressDialog aDialog;
-		private double similarityPercentage;
+		private double similarityPercentage = 0.0;
 		
-		public AsyncImageProcessor(Activity activity, ImageProcessor imageProcessor) {
-			this.aImageProcessor = imageProcessor;
+		public AsyncImageProcessor(Activity activity) {
 			this.aDialog = new ProgressDialog(activity);
 		}
 		
 		@Override
 		protected void onPreExecute() {
-			this.aDialog.setMessage("Connecting");
+			this.aDialog.setMessage("Processing Image");
 			this.aDialog.show();
 		}
 		
 		@Override
-		protected Boolean doInBackground(Image... images) {
-			aImageProcessor.processAgainstOneImage(images[0]);
-			this.similarityPercentage = aImageProcessor.calculateSimilarityPercentage();
+		protected Boolean doInBackground(ImageProcessor... processors) {
+			int totalSleepTime = 0;
+			
+			byte[] imageData = null;
+			mOpenCvCameraView.takePicture();
+			while(imageData == null) {
+				try {
+					if(totalSleepTime > MAX_SLEEP_TIME) {
+						Log.e(TAG, "Image capture timed out");
+						return false;
+					}
+					Log.d(TAG, "Thread Sleeping for " + DEFAULT_SLEEP_TIME);
+					Thread.sleep(DEFAULT_SLEEP_TIME);
+					imageData = mOpenCvCameraView.getImageData();
+					totalSleepTime += DEFAULT_SLEEP_TIME;
+				}
+				catch(InterruptedException ie) {
+					Log.d(TAG, "Thread inturrupted");
+					ie.printStackTrace();
+				}
+			}
+			
+			Image image = new Image(imageData);
+			processors[0].processAgainstOneImage(image);
+			this.similarityPercentage = processors[0].calculateSimilarityPercentage();
+			
 			return true;
 		}
 		
