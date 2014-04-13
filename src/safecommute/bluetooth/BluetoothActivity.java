@@ -28,8 +28,7 @@ public class BluetoothActivity extends Activity {
 	ListView inRangeBtList;
 	ArrayAdapter<String> pairedBtArrayAdapter;
 	ArrayAdapter<String> inRangeBtArrayAdapter;
-	
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -43,17 +42,18 @@ public class BluetoothActivity extends Activity {
 		final Button scanDevicesButton = (Button) findViewById(R.id.scanDevicesButton);
 
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-		
+
 		pairedBtList = (ListView) findViewById(R.id.pairedList);
 		pairedBtArrayAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, 0);
 		pairedBtList.setAdapter(pairedBtArrayAdapter);
-		
+
 		inRangeBtList = (ListView) findViewById(R.id.deviceList);
 		inRangeBtArrayAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, 0);
 		inRangeBtList.setAdapter(inRangeBtArrayAdapter);
 		
+
 		// check if the device supports Bluetooth
 		if (mBluetoothAdapter == null) {
 			// if not display so
@@ -65,11 +65,13 @@ public class BluetoothActivity extends Activity {
 					.getBondedDevices();
 			// if the size > 0 there are paired devices
 			if (pairedDevices.size() > 0) {
+				pairedBtArrayAdapter.clear();
+				// add to an array adapter to show in a ListView
 				for (BluetoothDevice device : pairedDevices) {
-					// add to an array adapter to show in a ListView
 					pairedBtArrayAdapter.add(device.getName() + "\n"
 							+ device.getAddress());
 				}
+				pairedBtArrayAdapter.notifyDataSetChanged();
 			}
 		}
 
@@ -112,26 +114,49 @@ public class BluetoothActivity extends Activity {
 				}
 				mBluetoothAdapter.startDiscovery();
 				displayToast("SEARCHING FOR DEVICES");
-				
-				btReceiver = new BroadcastReceiver() {
-				public void onReceive(Context context, Intent intent) {
-				    String action = intent.getAction();
 
-				    if (BluetoothDevice.ACTION_FOUND.equals(action)) 
-				    {
-				        // Get the BluetoothDevice object from the Intent
-				        BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-				        // Add the name and address to an array adapter to show in a ListView
-				       inRangeBtArrayAdapter.add(device.getName() + "\n" + device.getAddress());
-				    }
-				  }
+				btReceiver = new BroadcastReceiver() {
+					public void onReceive(Context context, Intent intent) {
+						String action = intent.getAction();
+
+						if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+							// Get the BluetoothDevice object from the Intent
+							BluetoothDevice device = intent
+									.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+							String btAddress = (device.getName() + "\n" + device
+									.getAddress());
+							// -1 position means not in list
+							if (inRangeBtArrayAdapter.getPosition(btAddress) == -1) {
+								inRangeBtArrayAdapter.add(btAddress);
+								inRangeBtArrayAdapter.notifyDataSetChanged();
+							}
+						}
+					}
 				};
 
-				IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND); 
+				IntentFilter filter = new IntentFilter(
+						BluetoothDevice.ACTION_FOUND);
 				registerReceiver(btReceiver, filter);
-				
+
 			}
 		});
+	}
+	
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+	    // Save the user's current game state
+	    //savedInstanceState.putAll();
+	    
+	    // Always call the superclass so it can save the view hierarchy state
+	    super.onSaveInstanceState(savedInstanceState);
+	}
+	
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+	    // Always call the superclass so it can restore the view hierarchy
+	    super.onRestoreInstanceState(savedInstanceState);
+	   
+	    // Restore state members from saved instance
+	    //mCurrentScore = savedInstanceState.getInt(STATE_SCORE);
+	    //mCurrentLevel = savedInstanceState.getInt(STATE_LEVEL);
 	}
 
 	public void displayToast(String s) {
@@ -150,5 +175,7 @@ public class BluetoothActivity extends Activity {
 			displayToast("DEVICE NOT SUPPORTED");
 		}
 	}
+	
+	
 
 }
