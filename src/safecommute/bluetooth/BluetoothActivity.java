@@ -2,6 +2,7 @@ package safecommute.bluetooth;
 
 import safecommute.main.*;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import android.os.Bundle;
@@ -24,10 +25,11 @@ public class BluetoothActivity extends Activity {
 	private static final int REQUEST_DISCOVERABLE_BT = 1;
 	BluetoothAdapter mBluetoothAdapter = null;
 	BroadcastReceiver btReceiver = null;
-	ListView pairedBtList;
-	ListView inRangeBtList;
-	ArrayAdapter<String> pairedBtArrayAdapter;
-	ArrayAdapter<String> inRangeBtArrayAdapter;
+	ListView pairedBtList = null;
+	ListView inRangeBtList = null;
+	ArrayList<String> inRangeBtArrayList = null;
+	ArrayAdapter<String> pairedBtArrayAdapter = null;
+	ArrayAdapter<String> inRangeBtArrayAdapter = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +51,10 @@ public class BluetoothActivity extends Activity {
 		pairedBtList.setAdapter(pairedBtArrayAdapter);
 
 		inRangeBtList = (ListView) findViewById(R.id.deviceList);
+		inRangeBtArrayList = new ArrayList<String>();
 		inRangeBtArrayAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, 0);
 		inRangeBtList.setAdapter(inRangeBtArrayAdapter);
-		
 
 		// check if the device supports Bluetooth
 		if (mBluetoothAdapter == null) {
@@ -114,7 +116,6 @@ public class BluetoothActivity extends Activity {
 				}
 				mBluetoothAdapter.startDiscovery();
 				displayToast("SEARCHING FOR DEVICES");
-
 				btReceiver = new BroadcastReceiver() {
 					public void onReceive(Context context, Intent intent) {
 						String action = intent.getAction();
@@ -125,8 +126,8 @@ public class BluetoothActivity extends Activity {
 									.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 							String btAddress = (device.getName() + "\n" + device
 									.getAddress());
-							// -1 position means not in list
-							if (inRangeBtArrayAdapter.getPosition(btAddress) == -1) {
+							if (!inRangeBtArrayList.contains(btAddress)) {
+								inRangeBtArrayList.add(btAddress);
 								inRangeBtArrayAdapter.add(btAddress);
 								inRangeBtArrayAdapter.notifyDataSetChanged();
 							}
@@ -141,22 +142,24 @@ public class BluetoothActivity extends Activity {
 			}
 		});
 	}
-	
+
 	public void onSaveInstanceState(Bundle savedInstanceState) {
-	    // Save the user's current game state
-	    //savedInstanceState.putAll();
-	    
-	    // Always call the superclass so it can save the view hierarchy state
-	    super.onSaveInstanceState(savedInstanceState);
+		// Save the user's current game state
+		savedInstanceState
+				.putStringArrayList("IN_RANGE_BT", inRangeBtArrayList);
+
+		// Always call the superclass so it can save the view hierarchy state
+		super.onSaveInstanceState(savedInstanceState);
 	}
-	
+
 	public void onRestoreInstanceState(Bundle savedInstanceState) {
-	    // Always call the superclass so it can restore the view hierarchy
-	    super.onRestoreInstanceState(savedInstanceState);
-	   
-	    // Restore state members from saved instance
-	    //mCurrentScore = savedInstanceState.getInt(STATE_SCORE);
-	    //mCurrentLevel = savedInstanceState.getInt(STATE_LEVEL);
+		// Always call the superclass so it can restore the view hierarchy
+		super.onRestoreInstanceState(savedInstanceState);
+
+		// Restore state members from saved instance
+		inRangeBtArrayList = savedInstanceState
+				.getStringArrayList("IN_RANGE_BT");
+		inRangeBtArrayAdapter.addAll(inRangeBtArrayList);
 	}
 
 	public void displayToast(String s) {
@@ -175,7 +178,5 @@ public class BluetoothActivity extends Activity {
 			displayToast("DEVICE NOT SUPPORTED");
 		}
 	}
-	
-	
 
 }
