@@ -179,9 +179,9 @@ public class LockScreen extends Activity {
 		mapsimage.setOnClickListener(new OnClickListener() { // Onclick for maps image
 			@Override
             public void onClick(View arg0) {
-                Toast.makeText(LockScreen.this, ""+mapsimage.getTag(),
+				Toast.makeText(LockScreen.this, ""+mapsimage.getTag(),
                         Toast.LENGTH_SHORT).show();
-                showFragment(mapsimage, (Integer) mapsimage.getTag());
+                showMap(mapsimage, (Integer) mapsimage.getTag());
             }
 		});	
 		position++;
@@ -233,45 +233,46 @@ public class LockScreen extends Activity {
 				
 	}
 	
-	void showMovement(ImageView pic, int positionIndex) { // Open Bluetooth
-		
-		Intent intent = new Intent(this, GPS.class);
-		
+	void showFragment(ImageView pic, int positionIndex) { // Generic
+		// We need to launch a new activity to display
+			// the dialog fragment with selected text.
+
+			// Create an intent for starting the DetailsActivity
+			Intent intent = new Intent(this, DetailsActivity.class);
+
+			// explicitly set the activity context and class
+			// associated with the intent (context, class)
+			//intent.setClass(LockScreen.CONTEXT_IGNORE_SECURITY, LockScreen.DetailsActivity.class);
+			
+			// pass the current position
+			intent.putExtra("index", positionIndex);
+			intent.putExtra("title", pic.toString());
+
+			startActivity(intent);
+	}
+	
+	void showMap(ImageView pic, int positionIndex) { // Open Google Maps
+		Intent intent = new Intent(this, Maps.class);
 		intent.putExtra("index", positionIndex);
 		intent.putExtra("title", pic.toString());
-		
+		startActivity(intent);		
+	}
+	
+	void showMovement(ImageView pic, int positionIndex) { // Open Bluetooth
+		Intent intent = new Intent(this, GPS.class);
+		intent.putExtra("index", positionIndex);
+		intent.putExtra("title", pic.toString());
 		startActivity(intent);		
 	}
 	
 	void showBluetooth(ImageView pic, int positionIndex) { // Open Bluetooth
-		
-		Intent intent = new Intent(this, BluetoothActivity.class);
-		
+		Intent intent = new Intent(this, BluetoothActivity.class);		
 		intent.putExtra("index", positionIndex);
-		intent.putExtra("title", pic.toString());
-		
-		Toast.makeText(getApplicationContext(), "class name: " + BluetoothActivity.class, Toast.LENGTH_SHORT).show();
-		
+		intent.putExtra("title", pic.toString());		
+		Toast.makeText(getApplicationContext(), "class name: " + BluetoothActivity.class, Toast.LENGTH_SHORT).show();		
 		startActivity(intent);		
-	}
-	
-    void showFragment(ImageView pic, int positionIndex) {
-    		// We need to launch a new activity to display
- 			// the dialog fragment with selected text.
-
- 			// Create an intent for starting the DetailsActivity
- 			Intent intent = new Intent(this, DetailsActivity.class);
-
- 			// explicitly set the activity context and class
- 			// associated with the intent (context, class)
- 			//intent.setClass(LockScreen.CONTEXT_IGNORE_SECURITY, LockScreen.DetailsActivity.class);
- 			
- 			// pass the current position
- 			intent.putExtra("index", positionIndex);
- 			intent.putExtra("title", pic.toString());
-
- 			startActivity(intent);
-    }
+	}	
+    
     
     void showCameraView(ImageView pic, int positionIndex) {
     	Intent intent = new Intent(this, CameraActivity.class);
