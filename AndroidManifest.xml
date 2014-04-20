@@ -64,6 +64,8 @@
         <activity android:name="safecommute.bluetooth.BluetoothActivity" />
         <activity android:name="safecommute.movement.GPS" />       
         <activity android:name="safecommute.main.Maps" />
+        <activity android:name="safecommute.music.PlayListActivity" /> <!-- For Music -->
+        <activity android:name="safecommute.music.MainMusic" /> <!-- For Music -->
         <activity 
             android:name="safecommute.imagerecognition.CameraActivity"
             android:screenOrientation="landscape" />        

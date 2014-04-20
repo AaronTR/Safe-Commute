@@ -2,6 +2,7 @@ package safecommute.main;
 import safecommute.bluetooth.BluetoothActivity;
 import safecommute.imagerecognition.CameraActivity;
 import safecommute.movement.GPS;
+import safecommute.music.MainMusic;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -154,19 +155,9 @@ public class LockScreen extends Activity {
 		musicimage.setOnClickListener(new OnClickListener() { // Onclick for music image
 			@Override
             public void onClick(View arg0) {
-                /* Toast.makeText(LockScreen.this, ""+ musicimage.getTag(),
+				Toast.makeText(LockScreen.this, ""+musicimage.getTag(),
                         Toast.LENGTH_SHORT).show();
-                showFragment(musicimage, (Integer) musicimage.getTag()); */
-				
-				/*Intent intent = new Intent();  
-	            intent.setAction(android.content.Intent.ACTION_VIEW);  
-	            File file = new File(MediaStore.Audio.Media.DATA);  
-	            intent.setDataAndType(Uri.fromFile(file), "audio/*");  
-	            startActivity(intent);*/
-				
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("market://details?id=com.example.android"));
-				startActivity(intent);
+                showMusic(musicimage, (Integer) musicimage.getTag());
             }
 		});	
 		position++;
@@ -249,6 +240,13 @@ public class LockScreen extends Activity {
 			intent.putExtra("title", pic.toString());
 
 			startActivity(intent);
+	}
+	
+	void showMusic (ImageView pic, int positionIndex) { // Open Music Player
+		Intent intent = new Intent(this, MainMusic.class);
+		intent.putExtra("index", positionIndex);
+		intent.putExtra("title", pic.toString());
+		startActivity(intent);	
 	}
 	
 	void showMap(ImageView pic, int positionIndex) { // Open Google Maps
