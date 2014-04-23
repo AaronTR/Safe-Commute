@@ -1,33 +1,20 @@
 package safecommute.main;
-import java.io.File;
-
-import safecommute.bluetooth.*;
-import safecommute.movement.*;
-
-
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
+import safecommute.bluetooth.BluetoothActivity;
+import safecommute.imagerecognition.CameraActivity;
+import safecommute.movement.GPS;
+import safecommute.movement.GPSService;
+import safecommute.music.MainMusic;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.Typeface;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.util.TypedValue;
+import android.net.Uri;
+import android.os.Bundle;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -37,6 +24,7 @@ public class LockScreen extends Activity {
 	
 	private Intent LocIntent = null;
 	public static GPSService loc = null;
+	public static final int CAMERA_REQUEST_CODE = 24;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +71,7 @@ public class LockScreen extends Activity {
 		
 		// Format and add "Passenger Unlock" text
 		TextView passengertext = new TextView(this);
-		passengertext.setText(R.string.passenger_unlock);
+		//passengertext.setText(R.string.passenger_unlock);
 		passengertext.setLayoutParams(textParams);
 		passengertext.setGravity(Gravity.CENTER);
 		passengertext.setTextColor(Color.WHITE);
@@ -93,7 +81,7 @@ public class LockScreen extends Activity {
 		
 		// Format and add "Available Applications" text
 		TextView appstext = new TextView(this);
-		appstext.setText(R.string.available_apps);
+		//appstext.setText(R.string.available_apps);
 		appstext.setLayoutParams(textParams);
 		appstext.setGravity(Gravity.CENTER);
 		appstext.setTextColor(Color.WHITE);
@@ -103,7 +91,7 @@ public class LockScreen extends Activity {
 		
 		// Format and add "Emergency" text
 		TextView emergencytext = new TextView(this);
-		emergencytext.setText(R.string.emergency_contacts);
+		//emergencytext.setText(R.string.emergency_contacts);
 		emergencytext.setLayoutParams(textParams);
 		emergencytext.setGravity(Gravity.CENTER);
 		emergencytext.setTextColor(Color.WHITE);
@@ -178,19 +166,9 @@ public class LockScreen extends Activity {
 		musicimage.setOnClickListener(new OnClickListener() { // Onclick for music image
 			@Override
             public void onClick(View arg0) {
-                /* Toast.makeText(LockScreen.this, ""+ musicimage.getTag(),
+				Toast.makeText(LockScreen.this, ""+musicimage.getTag(),
                         Toast.LENGTH_SHORT).show();
-                showFragment(musicimage, (Integer) musicimage.getTag()); */
-				
-				/*Intent intent = new Intent();  
-	            intent.setAction(android.content.Intent.ACTION_VIEW);  
-	            File file = new File(MediaStore.Audio.Media.DATA);  
-	            intent.setDataAndType(Uri.fromFile(file), "audio/*");  
-	            startActivity(intent);*/
-				
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("market://details?id=com.example.android"));
-				startActivity(intent);
+                showMusic(musicimage, (Integer) musicimage.getTag());
             }
 		});	
 		position++;
@@ -203,9 +181,9 @@ public class LockScreen extends Activity {
 		mapsimage.setOnClickListener(new OnClickListener() { // Onclick for maps image
 			@Override
             public void onClick(View arg0) {
-                Toast.makeText(LockScreen.this, ""+mapsimage.getTag(),
+				Toast.makeText(LockScreen.this, ""+mapsimage.getTag(),
                         Toast.LENGTH_SHORT).show();
-                showFragment(mapsimage, (Integer) mapsimage.getTag());
+                showMap(mapsimage, (Integer) mapsimage.getTag());
             }
 		});	
 		position++;
@@ -219,9 +197,7 @@ public class LockScreen extends Activity {
 		cameraimage.setOnClickListener(new OnClickListener() { // Onclick for camera image
 			@Override
             public void onClick(View arg0) {
-                Toast.makeText(LockScreen.this, ""+cameraimage.getTag(),
-                        Toast.LENGTH_SHORT).show();
-                showFragment(mapsimage, (Integer) mapsimage.getTag());
+                showCameraView(cameraimage, (Integer)cameraimage.getTag());
             }
 		});	
 		position++;
@@ -259,42 +235,72 @@ public class LockScreen extends Activity {
 				
 	}
 	
-	void showMovement(ImageView pic, int positionIndex) { // Open Bluetooth
-		
-		Intent intent = new Intent(this, GPS.class);
-		
+	void showFragment(ImageView pic, int positionIndex) { // Generic
+		// We need to launch a new activity to display
+			// the dialog fragment with selected text.
+
+			// Create an intent for starting the DetailsActivity
+			Intent intent = new Intent(this, DetailsActivity.class);
+
+			// explicitly set the activity context and class
+			// associated with the intent (context, class)
+			//intent.setClass(LockScreen.CONTEXT_IGNORE_SECURITY, LockScreen.DetailsActivity.class);
+			
+			// pass the current position
+			intent.putExtra("index", positionIndex);
+			intent.putExtra("title", pic.toString());
+
+			startActivity(intent);
+	}
+	
+	void showMusic (ImageView pic, int positionIndex) { // Open Music Player
+		Intent intent = new Intent(this, MainMusic.class);
 		intent.putExtra("index", positionIndex);
 		intent.putExtra("title", pic.toString());
-		
+		startActivity(intent);	
+	}
+	
+	void showMap(ImageView pic, int positionIndex) { // Open Google Maps
+		Intent intent = new Intent(this, Maps.class);
+		intent.putExtra("index", positionIndex);
+		intent.putExtra("title", pic.toString());
+		startActivity(intent);		
+	}
+	
+	void showMovement(ImageView pic, int positionIndex) { // Open Bluetooth
+		Intent intent = new Intent(this, GPS.class);
+		intent.putExtra("index", positionIndex);
+		intent.putExtra("title", pic.toString());
 		startActivity(intent);		
 	}
 	
 	void showBluetooth(ImageView pic, int positionIndex) { // Open Bluetooth
-		
-		Intent intent = new Intent(this, BluetoothActivity.class);
-		
+		Intent intent = new Intent(this, BluetoothActivity.class);		
 		intent.putExtra("index", positionIndex);
-		intent.putExtra("title", pic.toString());
-		
+		intent.putExtra("title", pic.toString());		
+		Toast.makeText(getApplicationContext(), "class name: " + BluetoothActivity.class, Toast.LENGTH_SHORT).show();		
 		startActivity(intent);		
-	}
-	
-    void showFragment(ImageView pic, int positionIndex) {
-    		// We need to launch a new activity to display
- 			// the dialog fragment with selected text.
-
- 			// Create an intent for starting the DetailsActivity
- 			Intent intent = new Intent(this, DetailsActivity.class);
-
- 			// explicitly set the activity context and class
- 			// associated with the intent (context, class)
- 			//intent.setClass(LockScreen.CONTEXT_IGNORE_SECURITY, LockScreen.DetailsActivity.class);
- 			
- 			// pass the current position
- 			intent.putExtra("index", positionIndex);
- 			intent.putExtra("title", pic.toString());
-
- 			startActivity(intent);
+	}	
+    
+    
+    void showCameraView(ImageView pic, int positionIndex) {
+    	Intent intent = new Intent(this, CameraActivity.class);
+    	startActivityForResult(intent, CAMERA_REQUEST_CODE);
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	if(requestCode == CAMERA_REQUEST_CODE) {
+    		if(resultCode == Activity.RESULT_OK) {
+    			
+    			/* gets whether or not the camera view activity successfully recognized image,
+    			 * defaults to false 
+    			 */
+    			boolean acceptable = data.getBooleanExtra(CameraActivity.EXTRA_LABEL, false);
+    			String text = acceptable ? "Image recognized!" : "Image not recognized. Please try again.";
+    			Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+    		}
+    	}
     }
 
 	
