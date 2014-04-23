@@ -62,7 +62,8 @@
         
         <activity android:name="safecommute.main.LockScreen$DetailsActivity" />
         <activity android:name="safecommute.bluetooth.BluetoothActivity" />
-        <activity android:name="safecommute.movement.GPS" />       
+        <activity android:name="safecommute.movement.GPS" />
+        <service android:name="safecommute.movement.GPSService" />
         <activity android:name="safecommute.main.Maps" />
         <activity android:name="safecommute.music.PlayListActivity" /> <!-- For Music -->
         <activity android:name="safecommute.music.MainMusic" /> <!-- For Music -->

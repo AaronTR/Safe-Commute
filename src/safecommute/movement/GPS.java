@@ -109,7 +109,7 @@ public class GPS extends FragmentActivity implements SensorEventListener {
     private double times;
     private boolean DistanceRunning = false;
     private long time1 = 0;
-
+    
     /**
      * This sample demonstrates how to incorporate location based services in your app and
      * process location updates.  The app also shows how to convert lat/long coordinates to
@@ -264,7 +264,7 @@ public class GPS extends FragmentActivity implements SensorEventListener {
     	if(velocity > 6.7056){
     		Message.obtain(mHandler,UPDATE_DISTANCE, "YOU ARE GOING " + velocity + " m/s!!!").sendToTarget();
 			stopDistanceAdder(mDistance);
-			//startActivity(mainActivity)
+			//startActivity(main);
 			//at top include package that mainactivity is in
 			//instantiate an object: MainActiviy main = new MainActivity();
     	}

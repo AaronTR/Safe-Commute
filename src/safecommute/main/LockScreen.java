@@ -2,6 +2,7 @@ package safecommute.main;
 import safecommute.bluetooth.BluetoothActivity;
 import safecommute.imagerecognition.CameraActivity;
 import safecommute.movement.GPS;
+import safecommute.movement.GPSService;
 import safecommute.music.MainMusic;
 import android.app.Activity;
 import android.content.Intent;
@@ -21,6 +22,8 @@ import android.widget.Toast;
 
 public class LockScreen extends Activity {
 	
+	private Intent LocIntent = null;
+	public static GPSService loc = null;
 	public static final int CAMERA_REQUEST_CODE = 24;
 	
 	@Override
@@ -30,6 +33,14 @@ public class LockScreen extends Activity {
 		setContentView(R.layout.lockscreen_main);	
 		scalingImages(); // adds tags to all images
 		scalingTexts();	
+		
+		LocIntent = new Intent(this, GPSService.class);
+		startService(LocIntent);
+		loc = new GPSService(this);
+		//loc.onCreate();
+		
+		Toast.makeText(this, "LockScreen onCreate complete", Toast.LENGTH_SHORT).show();
+
 	}	
 	
 	@Override
