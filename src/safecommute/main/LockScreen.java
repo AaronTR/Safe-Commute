@@ -60,7 +60,7 @@ public class LockScreen extends Activity {
 		
 		// Format and add "Passenger Unlock" text
 		TextView passengertext = new TextView(this);
-		passengertext.setText(R.string.passenger_unlock);
+		//passengertext.setText(R.string.passenger_unlock);
 		passengertext.setLayoutParams(textParams);
 		passengertext.setGravity(Gravity.CENTER);
 		passengertext.setTextColor(Color.WHITE);
@@ -70,7 +70,7 @@ public class LockScreen extends Activity {
 		
 		// Format and add "Available Applications" text
 		TextView appstext = new TextView(this);
-		appstext.setText(R.string.available_apps);
+		//appstext.setText(R.string.available_apps);
 		appstext.setLayoutParams(textParams);
 		appstext.setGravity(Gravity.CENTER);
 		appstext.setTextColor(Color.WHITE);
@@ -80,7 +80,7 @@ public class LockScreen extends Activity {
 		
 		// Format and add "Emergency" text
 		TextView emergencytext = new TextView(this);
-		emergencytext.setText(R.string.emergency_contacts);
+		//emergencytext.setText(R.string.emergency_contacts);
 		emergencytext.setLayoutParams(textParams);
 		emergencytext.setGravity(Gravity.CENTER);
 		emergencytext.setTextColor(Color.WHITE);
