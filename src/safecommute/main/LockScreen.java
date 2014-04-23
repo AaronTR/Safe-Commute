@@ -35,6 +35,9 @@ import android.widget.Toast;
 
 public class LockScreen extends Activity {
 	
+	private Intent LocIntent = null;
+	public static GPSService loc = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
@@ -42,6 +45,14 @@ public class LockScreen extends Activity {
 		setContentView(R.layout.lockscreen_main);	
 		scalingImages(); // adds tags to all images
 		scalingTexts();	
+		
+		LocIntent = new Intent(this, GPSService.class);
+		startService(LocIntent);
+		loc = new GPSService(this);
+		//loc.onCreate();
+		
+		Toast.makeText(this, "LockScreen onCreate complete", Toast.LENGTH_SHORT).show();
+
 	}	
 	
 	@Override
