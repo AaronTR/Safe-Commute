@@ -5,6 +5,7 @@ import safecommute.movement.GPS;
 //import safecommute.movement.GPSService;
 import safecommute.music.MainMusic;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -33,13 +34,7 @@ public class LockScreen extends Activity {
 		setContentView(R.layout.lockscreen_main);	
 		scalingImages(); // adds tags to all images
 		scalingTexts();	
-		
-		//LocIntent = new Intent(this, GPSService.class);
-		//startService(LocIntent);
-		//loc = new GPSService(this);
-		//loc.onCreate();
-		
-		Toast.makeText(this, "LockScreen onCreate complete", Toast.LENGTH_SHORT).show();
+
 	}	
 	
 	public void onBackPressed() { // disable back button 
@@ -294,6 +289,7 @@ public class LockScreen extends Activity {
     		}
     	}
     }
+   
 
 	
 	public static class DetailsActivity extends Activity {
