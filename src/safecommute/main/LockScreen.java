@@ -40,8 +40,11 @@ public class LockScreen extends Activity {
 		//loc.onCreate();
 		
 		Toast.makeText(this, "LockScreen onCreate complete", Toast.LENGTH_SHORT).show();
-
 	}	
+	
+	public void onBackPressed() { // disable back button 
+	    // Do Here what ever you want do on back press;
+	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
