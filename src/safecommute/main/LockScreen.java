@@ -154,8 +154,6 @@ public class LockScreen extends Activity {
 		settingsimage.setOnClickListener(new OnClickListener() { // Onclick for settings image
 			@Override
             public void onClick(View arg0) {
-                Toast.makeText(LockScreen.this, ""+settingsimage.getTag(),
-                        Toast.LENGTH_SHORT).show();
                 showMovement(settingsimage, (Integer) settingsimage.getTag());
 			}
 		});	
@@ -169,8 +167,6 @@ public class LockScreen extends Activity {
 		musicimage.setOnClickListener(new OnClickListener() { // Onclick for music image
 			@Override
             public void onClick(View arg0) {
-				Toast.makeText(LockScreen.this, ""+musicimage.getTag(),
-                        Toast.LENGTH_SHORT).show();
                 showMusic(musicimage, (Integer) musicimage.getTag());
             }
 		});	
@@ -184,8 +180,6 @@ public class LockScreen extends Activity {
 		mapsimage.setOnClickListener(new OnClickListener() { // Onclick for maps image
 			@Override
             public void onClick(View arg0) {
-				Toast.makeText(LockScreen.this, ""+mapsimage.getTag(),
-                        Toast.LENGTH_SHORT).show();
                 showMap(mapsimage, (Integer) mapsimage.getTag());
             }
 		});	
@@ -213,8 +207,6 @@ public class LockScreen extends Activity {
 		bluetoothimage.setOnClickListener(new OnClickListener() { // Onclick for bluetooth image
 			@Override
             public void onClick(View arg0) {
-                Toast.makeText(LockScreen.this, ""+bluetoothimage.getTag(),
-                        Toast.LENGTH_SHORT).show();
                 showBluetooth(bluetoothimage, (Integer) bluetoothimage.getTag());
             }
 		});
@@ -228,10 +220,7 @@ public class LockScreen extends Activity {
 		emergencyimagerow.addView(emergencyimage);
 		emergencyimage.setOnClickListener(new OnClickListener() { // Onclick for emergency image
 			@Override
-            public void onClick(View arg0) {
-                Toast.makeText(LockScreen.this, ""+emergencyimage.getTag(),
-                        Toast.LENGTH_SHORT).show();
-                
+            public void onClick(View arg0) {                
                 showFragment(emergencyimage, (Integer) emergencyimage.getTag());
             }
 		});	

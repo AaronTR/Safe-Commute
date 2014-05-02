@@ -9,6 +9,15 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.Display;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
+import android.widget.TableRow;
+import android.widget.Toast;
+
 
 public class Maps extends Activity implements LocationListener{
 	LocationManager locationManager;	
@@ -20,6 +29,36 @@ public class Maps extends Activity implements LocationListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.maps);
         
+
+        /* Resize logo */
+        Display display = getWindowManager().getDefaultDisplay(); 
+		int screenWidth = display.getWidth();  // screen width
+		int screenHeight = display.getHeight();  // screen height			
+		int titleHeight = screenHeight/5;
+		int titleWidth = screenWidth/4;
+	
+		// Assigning table rows
+		final TableRow titlerow = (TableRow)findViewById(R.id.titlerow);
+		
+		TableRow.LayoutParams titleParams = new TableRow.LayoutParams(
+			    titleWidth, titleHeight);
+		titleParams.span = 3;
+		
+		// Adding logo
+		ImageView title = new ImageView(this);
+		title.setImageResource(R.drawable.logo);		
+		title.setLayoutParams(titleParams);
+		title.setScaleType(ImageView.ScaleType.FIT_CENTER);		
+		titlerow.addView(title);
+		
+	
+
+
+        
+        
+        
+        
+
         locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
         Criteria c = new Criteria();
         
