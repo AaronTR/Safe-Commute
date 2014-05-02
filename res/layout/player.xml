@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
     android:background="#4a4a4a"> 
+    
+    <TableLayout 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent"
+    android:shrinkColumns="*"  android:stretchColumns="*" android:background="#000" > 
+	    <!-- LOGO -->
+	    <TableRow 
+	        android:id="@+id/titlerow"
+	        android:layout_height="wrap_content" 
+	        android:layout_width="fill_parent"
+	        android:gravity="center_horizontal" >
+	    </TableRow>
+    </TableLayout>
     
     <!-- Player Header -->
     <LinearLayout 
@@ -24,7 +39,7 @@
             android:textSize="16dp"
             android:paddingLeft="10dp"
             android:textStyle="bold"
-            android:text="The Good, The Bad And The Ugly"
+            android:text="Safe Commute Music Player"
             android:layout_marginTop="10dp"/>"
         
         <!-- Playlist button -->
@@ -36,19 +51,6 @@
             android:background="@null"/>
     </LinearLayout>
     
-    <!-- Song Thumbnail Image -->
-    <LinearLayout 
-        android:id="@+id/songThumbnail"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:gravity="center"
-        android:layout_below="@id/player_header_bg">
-    	<ImageView android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/adele"/>    
-    </LinearLayout>
     
     <!-- Player Footer -->
     <LinearLayout 

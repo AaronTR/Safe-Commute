@@ -1,33 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- fragment xmlns:android="http://schemas.android.com/apk/res/android"
-          android:id="@+id/map"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:name="com.google.android.gms.maps.MapFragment" > 
-          
-</fragment-->
-
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"    
-    android:orientation="vertical" >
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent"
+    android:shrinkColumns="*"  android:stretchColumns="*" android:background="#000" > 
     
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+    <!-- LOGO -->
+    <TableRow 
+        android:id="@+id/titlerow"
+        android:layout_height="wrap_content" 
+        android:layout_width="fill_parent"
+        android:gravity="center_horizontal" >
+    </TableRow>
+    
     <fragment 
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:name="com.google.android.gms.maps.MapFragment" >    
 	</fragment>
-
-</LinearLayout> 
-
-
-	    
-
-          
+    
+</TableLayout>
