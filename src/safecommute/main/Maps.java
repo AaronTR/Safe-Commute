@@ -5,8 +5,6 @@ import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -20,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.Toast;
 
+
 public class Maps extends Activity implements LocationListener{
 	LocationManager locationManager;	
 	Location location;
@@ -30,6 +29,7 @@ public class Maps extends Activity implements LocationListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.maps);
         
+
         /* Resize logo */
         Display display = getWindowManager().getDefaultDisplay(); 
 		int screenWidth = display.getWidth();  // screen width
@@ -58,6 +58,7 @@ public class Maps extends Activity implements LocationListener{
         
         
         
+
         locationManager = (LocationManager)this.getSystemService(Context.LOCATION_SERVICE);
         Criteria c = new Criteria();
         
