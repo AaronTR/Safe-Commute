@@ -306,8 +306,8 @@ public class GPSService extends Service implements LocationListener {
 	    		  startDistanceAdder(mDistance);
 	    		  Intent intent = new Intent(mContext, safecommute.main.LockScreen.class);
 	    		  intent.setAction(Intent.ACTION_VIEW);
-	    		  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	    		  intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+	    		  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	    		  intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 	    		  mContext.startActivity(intent);	    		  
 	    	  }
   	  }
