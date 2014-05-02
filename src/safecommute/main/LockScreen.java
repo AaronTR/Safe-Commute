@@ -2,7 +2,7 @@ package safecommute.main;
 import safecommute.bluetooth.BluetoothActivity;
 import safecommute.imagerecognition.CameraActivity;
 import safecommute.movement.GPS;
-import safecommute.movement.GPSService;
+//import safecommute.movement.GPSService;
 import safecommute.music.MainMusic;
 import android.app.Activity;
 import android.content.Context;
@@ -24,7 +24,7 @@ import android.widget.Toast;
 public class LockScreen extends Activity {
 	
 	private Intent LocIntent = null;
-	public static GPSService loc = null;
+	//public static GPSService loc = null;
 	public static final int CAMERA_REQUEST_CODE = 24;
 	
 	@Override
@@ -34,17 +34,12 @@ public class LockScreen extends Activity {
 		setContentView(R.layout.lockscreen_main);	
 		scalingImages(); // adds tags to all images
 		scalingTexts();	
-		/**
-		LocIntent = new Intent(this, GPSService.class);
-		startService(LocIntent);
-		loc = new GPSService(this);
-		
-		*/
-		//loc.onCreate();
-		
-		//Toast.makeText(this, "LockScreen onCreate complete", Toast.LENGTH_SHORT).show();
 
 	}	
+	
+	public void onBackPressed() { // disable back button 
+	    // Do Here what ever you want do on back press;
+	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -154,8 +149,6 @@ public class LockScreen extends Activity {
 		settingsimage.setOnClickListener(new OnClickListener() { // Onclick for settings image
 			@Override
             public void onClick(View arg0) {
-                Toast.makeText(LockScreen.this, ""+settingsimage.getTag(),
-                        Toast.LENGTH_SHORT).show();
                 showMovement(settingsimage, (Integer) settingsimage.getTag());
 			}
 		});	
@@ -169,8 +162,6 @@ public class LockScreen extends Activity {
 		musicimage.setOnClickListener(new OnClickListener() { // Onclick for music image
 			@Override
             public void onClick(View arg0) {
-				Toast.makeText(LockScreen.this, ""+musicimage.getTag(),
-                        Toast.LENGTH_SHORT).show();
                 showMusic(musicimage, (Integer) musicimage.getTag());
             }
 		});	
@@ -184,8 +175,6 @@ public class LockScreen extends Activity {
 		mapsimage.setOnClickListener(new OnClickListener() { // Onclick for maps image
 			@Override
             public void onClick(View arg0) {
-				Toast.makeText(LockScreen.this, ""+mapsimage.getTag(),
-                        Toast.LENGTH_SHORT).show();
                 showMap(mapsimage, (Integer) mapsimage.getTag());
             }
 		});	
@@ -213,8 +202,6 @@ public class LockScreen extends Activity {
 		bluetoothimage.setOnClickListener(new OnClickListener() { // Onclick for bluetooth image
 			@Override
             public void onClick(View arg0) {
-                Toast.makeText(LockScreen.this, ""+bluetoothimage.getTag(),
-                        Toast.LENGTH_SHORT).show();
                 showBluetooth(bluetoothimage, (Integer) bluetoothimage.getTag());
             }
 		});
@@ -228,10 +215,7 @@ public class LockScreen extends Activity {
 		emergencyimagerow.addView(emergencyimage);
 		emergencyimage.setOnClickListener(new OnClickListener() { // Onclick for emergency image
 			@Override
-            public void onClick(View arg0) {
-                Toast.makeText(LockScreen.this, ""+emergencyimage.getTag(),
-                        Toast.LENGTH_SHORT).show();
-                
+            public void onClick(View arg0) {                
                 showFragment(emergencyimage, (Integer) emergencyimage.getTag());
             }
 		});	

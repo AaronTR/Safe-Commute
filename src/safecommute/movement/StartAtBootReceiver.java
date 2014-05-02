@@ -19,7 +19,7 @@ public class StartAtBootReceiver extends BroadcastReceiver{
 		r.play();
 		Toast.makeText(sContext, "Hello World!", Toast.LENGTH_SHORT).show();
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-            Intent dumIntent = new Intent(sContext, MarkIsADummyLikeThisActivity.class);
+            Intent dumIntent = new Intent(sContext, DumClass.class);
             dumIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             sContext.startActivity(dumIntent);
         }

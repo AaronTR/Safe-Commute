@@ -34,8 +34,7 @@ public class GPSService extends Service implements LocationListener {
 	private boolean isGPSEnabled = false;
 	private boolean isNetworkEnabled = false;
 	private boolean canGetLocation = false;
-	boolean inCar = false;
-	
+
 	private Location location;
 
 	double latitude;
@@ -69,6 +68,7 @@ public class GPSService extends Service implements LocationListener {
 	private int timesSlow = 0;
 	
 	public static Service gpsService;
+
     @SuppressLint("NewApi")
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate();
@@ -94,9 +94,18 @@ public class GPSService extends Service implements LocationListener {
     public void setup() {
         Location gpsLocation = null;
         Location networkLocation = null;
-        mLocationManager.removeUpdates(this);
-        if(!mDistanceAdd){
-            // Request updates from both fine (gps) and coarse (network) providers.
+        mLocationManager.removeUpdates(listener);
+        if(!mDistanceAdd)
+
+        // Get fine location updates only.        
+/**        if (mUseFine) {
+            // Request updates from just the fine (gps) provider.
+            gpsLocation = requestUpdatesFromProvider(
+                    LocationManager.GPS_PROVIDER, R.string.not_support_gps);
+        } 
+        else if (mUseBoth) {
+            // Get coarse and fine location updates.
+*/            // Request upFdates from both fine (gps) and coarse (network) providers.
             gpsLocation = requestUpdatesFromProvider(
                     LocationManager.GPS_PROVIDER, R.string.wifi_only);
             networkLocation = requestUpdatesFromProvider(
@@ -106,14 +115,14 @@ public class GPSService extends Service implements LocationListener {
             maximum = 0;
             
             mSensorManager.registerListener(accelerationListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
-            
-        }
+    		Toast.makeText(mContext, "Service Succesfully Started, shake phone to start app.", Toast.LENGTH_SHORT).show();
+
     }
 
     private Location requestUpdatesFromProvider(final String provider, final int errorResId) {
         Location location = null;
         if (mLocationManager.isProviderEnabled(provider)) {
-            mLocationManager.requestLocationUpdates(provider, 10*1000, 80, this);
+            mLocationManager.requestLocationUpdates(provider, 10*1000, 80, listener);
             location = mLocationManager.getLastKnownLocation(provider);
         }
         return location;
@@ -231,46 +240,44 @@ public class GPSService extends Service implements LocationListener {
 	public boolean canGetLocation() {
 		return this.canGetLocation;
 	}
-
+/**
+	@Override
+	public void onLocationChanged(Location location) {
+		latitude = location.getLatitude();
+		longitude = location.getLongitude();
+		long time2 = System.currentTimeMillis();
+    	if (mDistanceAdd)
+    		updateDistance(location, firstLocation, time1, time2);
+        firstLocation = location;
+        time1 = time2;
+	}
+*/
     private void updateDistance(Location location1, Location location2, long timeStart, long timeFinish){
-    	//Toast.makeText(mContext, "Updating Distance...", Toast.LENGTH_SHORT).show();
+    	Toast.makeText(mContext, "Updating Distance...", Toast.LENGTH_SHORT).show();
     	totalDistance = location1.distanceTo(location2);
     	float timeDiff = (timeFinish-timeStart)/(1000);
     	float velocity = totalDistance/timeDiff;
     	
-    	if(velocity > 0.5){
+    	if(velocity > 1){
 //    	if(velocity > 6.7056){
     		Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
     		Ringtone r = RingtoneManager.getRingtone(mContext, notification);
     		r.play();
-
-    		if (!inCar){
-        		Toast.makeText(mContext, "YOU ARE GOING " + velocity + " m/s!!!", Toast.LENGTH_LONG).show();    			
-			//stopDistanceAdder(mDistance);
-			/** THIS IS WHERE I NEED TO START THE LOCK SCREEN!
+    		
+    		
+    		Toast.makeText(mContext, "YOU ARE GOING " + velocity + " m/s!!!", Toast.LENGTH_LONG).show();
+			stopDistanceAdder(mDistance);
 			//startActivity(mainActivity)
 			//at top include package that mainactivity is in
 			//instantiate an object: MainActiviy main = new MainActivity();
-			 */
-    			inCar = true;
-    		}
     	}
     	else{
-    		timesSlow++;
-    		if (inCar || (timesSlow == 3)){		// If car registers < 15 mph, or if not in car finds < 15 mph 5 times 
-    			stopDistanceAdder(mDistance);
-    			}
     		Toast.makeText(mContext, "time: " + timeDiff + " seconds", Toast.LENGTH_LONG).show();
-    		}
     	}
+    }
     
     public void stopDistanceAdder(View v){
     	mDistanceAdd = false;
-    	useAcc = true;
-    	timesSlow = 0;
-    	inCar = false;
-    	DistanceRunning = false;
-    	stopUsingGPS();
     }
 
 
@@ -330,35 +337,42 @@ public class GPSService extends Service implements LocationListener {
 
 public void startDistanceAdder(View v){
 if (!DistanceRunning){
-		//Toast.makeText(mContext, "startDistanceAdder begin!", Toast.LENGTH_SHORT).show();
+		Toast.makeText(mContext, "startDistanceAdder begin!", Toast.LENGTH_SHORT).show();
 		useAcc = false;
 		DistanceRunning = true;
     	mDistanceAdd = true;
     	totalDistance = 0;
     	Location gps;
     	Location netloc;
-    	gps = mLocationManager.getLastKnownLocation(mLocationManager.GPS_PROVIDER);
-    	netloc = mLocationManager.getLastKnownLocation(mLocationManager.NETWORK_PROVIDER);
-    	if (gps != null){
-    		Toast.makeText(mContext, "GPS: " + gps.getLatitude() + ", " + gps.getLongitude(), Toast.LENGTH_SHORT).show();
-    		firstLocation = gps;
-    		}
-    	else if (netloc != null){
-    		Toast.makeText(mContext, "Network: " + netloc.getLatitude() + ", " + netloc.getLongitude(), Toast.LENGTH_SHORT).show();
-    		firstLocation = netloc;
-    		}
-    	else
-    		Toast.makeText(mContext, "LOCATING SATELLITES", Toast.LENGTH_LONG).show();
-    	}
-}
-/**
+/**	    	if (mUseFine){
+    		gps = mLocationManager.getLastKnownLocation(mLocationManager.GPS_PROVIDER);
+    		firstLocation = gps;}
+    	else if (mUseBoth){	*/
+    			gps = mLocationManager.getLastKnownLocation(mLocationManager.GPS_PROVIDER);
+    			netloc = mLocationManager.getLastKnownLocation(mLocationManager.NETWORK_PROVIDER);
+    			if (gps != null){ 
+    				Toast.makeText(mContext, "GPS: " + gps.getLatitude() + ", " + gps.getLongitude(), Toast.LENGTH_SHORT).show();
+                    firstLocation = gps;
+    			}
+                else if (netloc != null){
+    				Toast.makeText(mContext, "Network: " + netloc.getLatitude() + ", " + netloc.getLongitude(), Toast.LENGTH_SHORT).show();
+                    firstLocation = netloc;
+                }
+                else
+            		Toast.makeText(mContext, "LOCATING SATELLITES", Toast.LENGTH_LONG).show();
+
+            }
+    	
+    	
+	}
+
 private final LocationListener listener = new LocationListener() {
 
     @Override
     public void onLocationChanged(Location location) {
         // A new location update is received.  Do something useful with it.  Update the UI with
         // the location update.
-    	// LOOK HERE I'M IMPORTANT!!!!!!!!!!!!!!!!!!!
+    	/**LOOK HERE I'M IMPORTANT!!!!!!!!!!!!!!!!!!!*/
     	long time2 = System.currentTimeMillis();
     	if (mDistanceAdd)
     		updateDistance(location, firstLocation, time1, time2);
@@ -378,7 +392,7 @@ private final LocationListener listener = new LocationListener() {
     public void onStatusChanged(String provider, int status, Bundle extras) {
     }
 };
-*/
+
 
 @Override
 public void onLocationChanged(Location location) {
@@ -389,12 +403,7 @@ public void onLocationChanged(Location location) {
 	if (mDistanceAdd)
 		updateDistance(location, firstLocation, time1, time2);
     firstLocation = location;
-    time1 = time2;
-    }
-
-public boolean isInCar(){
-	return inCar;
-}
+    time1 = time2;}
 
 }
 
