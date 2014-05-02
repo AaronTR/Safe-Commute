@@ -106,7 +106,11 @@ public class ConcreteImageProcessor implements ImageProcessor{
 
 	public static final String TAG = "image_processor";
 	
+	private static final String ASSET_BASE = "";
+	private static final String[] MATRIX_TAGS = {"test1.json", "test2.json", "test3.json"};
+	
 	private Context mContext;
+	private JSONAssetLoader mLoader;
 	private DescriptorExtractor mExtractor;
 	private DescriptorMatcher mMatcher;
 	private FeatureDetector mDetector;
@@ -115,51 +119,42 @@ public class ConcreteImageProcessor implements ImageProcessor{
 	//just for alpha
 	private Bitmap comparisonImage;
 	
-	public ConcreteImageProcessor(Context context, int extractorType, int matcherType, int detectorType) {
+	public ConcreteImageProcessor(Context context, JSONAssetLoader loader, int extractorType, int matcherType, int detectorType) {
 		mContext = context;
+		mLoader = loader;
 		mExtractor = DescriptorExtractor.create(extractorType);
 		mMatcher = DescriptorMatcher.create(matcherType);
 		mDetector = FeatureDetector.create(detectorType);
 	}
 	
+	
+	/* Decided that our best option is to load images from json files in assets
+	 * this now returns the best found similarity percentage based on the calculate function
+	 * @see safecommute.imagerecognition.ImageProcessor#processAgainstOneImage(safecommute.imagerecognition.Image, java.lang.String)
+	 */
 	@Override
-	public void processAgainstOneImage(Image image) {
+	public double processAgainstAllImages(Image image) {
+		double bestPercentage = 100.0;
 		
-		//testing purposes only
-		Drawable testDraw = mContext.getResources().getDrawable(R.drawable.testplane);
-		Image testImage = new Image(testDraw);
-		Mat testMat = image.toMat();
-		MatOfKeyPoint testKeypoints = new MatOfKeyPoint();
-		mDetector.detect(testMat, testKeypoints);
-		Mat testDesc = new Mat();
-		mExtractor.compute(testMat, testKeypoints, testDesc);
-		testKeypoints.release();
-		testMat.release();
-		
-		Mat imageMat = image.toMat();
-		MatOfKeyPoint keypoints = new MatOfKeyPoint();
-		mDetector.detect(imageMat, keypoints);
-		Mat descriptors = new Mat();
-		mExtractor.compute(imageMat, keypoints, descriptors);
-		keypoints.release();
-		imageMat.release();
-		
-		MatOfDMatch matches = new MatOfDMatch();
-		mMatcher.match(testDesc, descriptors, matches);
-		matches.release();
-		descriptors.release();
-		testDesc.release();
-		
-		
+//		Mat newDescriptors = computeImageDescriptors(image.toMat());
+//		for(int i=0; i < MATRIX_TAGS.length; i++) {
+//			Mat testImage = mLoader.loadMatrix(MATRIX_TAGS[i]);
+//			Mat testDescriptors = computeImageDescriptors(testImage);
+//			
+//			MatOfDMatch matches = getMatchesFromDescriptors(newDescriptors, testDescriptors);
+//			double percentMatch = calculateSimilarityPercentage(matches);
+//			
+//			if(percentMatch > bestPercentage) {
+//				bestPercentage = percentMatch;
+//			}
+//		}
+		Mat newDescriptors = computeImageDescriptors(image.toMat());
+		mLoader.saveMatrix(newDescriptors);
+		return bestPercentage;
 	}
 
 	@Override
-	public void processAgainstAllImages(Image image) {
-		// TODO repeated AgainstOne
-	}
-
-	@Override
-	public double calculateSimilarityPercentage() {
+	public double calculateSimilarityPercentage(MatOfDMatch matches) {
 		// TODO Auto-generated method stub
 		return 100.0;
 	}
@@ -168,5 +163,26 @@ public class ConcreteImageProcessor implements ImageProcessor{
 	public Image resizeImage(Image image) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public Mat computeImageDescriptors(Mat imageMat) {
+		MatOfKeyPoint keypoints = new MatOfKeyPoint();
+		mDetector.detect(imageMat, keypoints);
+		Mat descriptors = new Mat();
+		mExtractor.compute(imageMat, keypoints, descriptors);
+		keypoints.release();
+		imageMat.release();
+		
+		return descriptors;
+	}
+	
+	private MatOfDMatch getMatchesFromDescriptors(Mat descOne, Mat descTwo) {
+		MatOfDMatch matches = new MatOfDMatch();
+		mMatcher.match(descOne, descTwo, matches);
+		descOne.release();
+		descTwo.release();
+		
+		return matches;
 	}
 }

@@ -123,7 +123,7 @@ public class CameraActivity extends Activity implements CvCameraViewListener2, O
 	public boolean onTouch(View v, MotionEvent event) {
 			
 		ImageProcessor processor = new ConcreteImageProcessor(getApplicationContext() 
-					, EXTRACTOR_ID, MATCHER_ID, DETECTOR_ID);
+					, new JSONAssetLoader(), EXTRACTOR_ID, MATCHER_ID, DETECTOR_ID);
 		new AsyncImageProcessor(this).execute(processor);
 
         return false;
@@ -168,8 +168,7 @@ public class CameraActivity extends Activity implements CvCameraViewListener2, O
 			}
 			
 			Image image = new Image(imageData);
-			processors[0].processAgainstOneImage(image);
-			this.similarityPercentage = processors[0].calculateSimilarityPercentage();
+			this.similarityPercentage = processors[0].processAgainstAllImages(image);
 			
 			return true;
 		}
