@@ -22,6 +22,9 @@ public class LockScreen extends Activity {
 	
 	public static final int CAMERA_REQUEST_CODE = 24;
 	
+	//delete this shit
+	public static int imageTag = 0;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		

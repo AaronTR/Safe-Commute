@@ -11,8 +11,8 @@ import org.opencv.features2d.FeatureDetector;
 import org.opencv.features2d.Features2d;
 import org.opencv.imgproc.Imgproc;
 
+import safecommute.main.LockScreen;
 import safecommute.main.R;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -119,6 +119,7 @@ public class ConcreteImageProcessor implements ImageProcessor{
 	//just for alpha
 	private Bitmap comparisonImage;
 	
+	
 	public ConcreteImageProcessor(Context context, JSONAssetLoader loader, int extractorType, int matcherType, int detectorType) {
 		mContext = context;
 		mLoader = loader;
@@ -149,7 +150,8 @@ public class ConcreteImageProcessor implements ImageProcessor{
 //			}
 //		}
 		Mat newDescriptors = computeImageDescriptors(image.toMat());
-		mLoader.saveMatrix(newDescriptors);
+		mLoader.saveMatrix(newDescriptors, Integer.toString(LockScreen.imageTag));
+		LockScreen.imageTag++;
 		return bestPercentage;
 	}
 

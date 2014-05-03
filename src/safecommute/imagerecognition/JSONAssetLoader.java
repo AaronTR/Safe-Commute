@@ -3,7 +3,7 @@ package safecommute.imagerecognition;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 import org.opencv.core.Mat;
 
@@ -41,7 +41,7 @@ public class JSONAssetLoader implements AssetLoader{
 	
 	/* Only for testing and saving initial test matrices */
 	/* DON'T USE IN FINAL!!! */
-	public void saveMatrix(Mat matrix) {
+	public void saveMatrix(Mat matrix, String tag) {
 		JsonObject obj = new JsonObject();
 
 	    if(matrix.isContinuous()){
@@ -66,10 +66,12 @@ public class JSONAssetLoader implements AssetLoader{
 	        Gson gson = new Gson();
 	        String json = gson.toJson(obj);
 	        
-	        String fullPath = Environment.getExternalStorageDirectory().getPath() +
-	                File.separator+ "testJson"+ ".txt";
+	        File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "jsons");
+	        dir.mkdirs();
+	        File file = new File(dir, "testJson_" + tag + ".txt");
+	        
 	        try {
-	        	saveDataWithFileStream(fullPath, json);
+	        	saveDataWithFileStream(file, json);
 	        }
 	        catch (IOException ex) {
 	        	Log.e(TAG, "Couldn't write that shit");
@@ -80,20 +82,22 @@ public class JSONAssetLoader implements AssetLoader{
 	    }
 	}
 	
-	private void saveDataWithFileStream(String fullPath, String data) throws IOException{
-		File file = new File(fullPath);
+	private void saveDataWithFileStream(File file, String data) throws IOException{
 		FileOutputStream fs = null;
-		OutputStreamWriter os = null;
+		PrintWriter pw = null;
+		//OutputStreamWriter os = null;
 		try {           
-        	Log.e(TAG, fullPath);
+        	Log.e(TAG, file.getAbsolutePath());
             fs = new FileOutputStream(file);
+            pw = new PrintWriter(fs);
+            pw.append(data);
+            pw.flush();
             //fs.write(data.getBytes());
-            os = new OutputStreamWriter(fs);
-            os.write(data);
+            //os = new OutputStreamWriter(fs, "UTF-8");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-        	if(os != null) { os.close(); }
+        	if(pw != null) { pw.close(); }
         	if(fs != null) { fs.close(); }
         }
 	}
