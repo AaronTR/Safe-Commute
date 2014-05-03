@@ -4,7 +4,6 @@ import safecommute.main.*;
 
 import java.util.ArrayList;
 import java.util.Set;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;

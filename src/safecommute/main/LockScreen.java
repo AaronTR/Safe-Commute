@@ -215,8 +215,8 @@ public class LockScreen extends Activity {
 		emergencyimagerow.addView(emergencyimage);
 		emergencyimage.setOnClickListener(new OnClickListener() { // Onclick for emergency image
 			@Override
-            public void onClick(View arg0) {                
-                showFragment(emergencyimage, (Integer) emergencyimage.getTag());
+            public void onClick(View arg0) { 
+				showPhoneCall(emergencyimage, (Integer) emergencyimage.getTag());
             }
 		});	
 				
@@ -255,10 +255,12 @@ public class LockScreen extends Activity {
 	}
 	
 	void showMovement(ImageView pic, int positionIndex) { // Open Movement
-		Intent intent = new Intent(this, GPS.class);
-		intent.putExtra("index", positionIndex);
-		intent.putExtra("title", pic.toString());
-		startActivity(intent);		
+//		Intent intent = new Intent(this, GPS.class);
+//		intent.putExtra("index", positionIndex);
+//		intent.putExtra("title", pic.toString());
+//		startActivity(intent);	
+		finish();
+		System.exit(0);
 	}
 	
 	void showBluetooth(ImageView pic, int positionIndex) { // Open Bluetooth
@@ -273,6 +275,11 @@ public class LockScreen extends Activity {
     void showCameraView(ImageView pic, int positionIndex) {
     	Intent intent = new Intent(this, CameraActivity.class);
     	startActivityForResult(intent, CAMERA_REQUEST_CODE);
+    }
+    
+    void showPhoneCall(ImageView pic, int positionIndex) {
+    	Intent intent = new Intent(this, EmergencyCall.class);
+    	startActivity(intent);
     }
     
     @Override

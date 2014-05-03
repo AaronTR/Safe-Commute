@@ -64,10 +64,7 @@ public class GPSService extends Service implements LocationListener {
     private boolean mGeocoderAvailable;
 
 	private LocationManager mLocationManager;
-	
-	private int timesSlow = 0;
-	
-	public static Service gpsService;
+
 
     @SuppressLint("NewApi")
     public void onCreate(Bundle savedInstanceState) {
@@ -135,8 +132,7 @@ public class GPSService extends Service implements LocationListener {
 
 	public GPSService(Context context) {
 		this.mContext = context;
-		
-		Toast.makeText(mContext, "this = " + this + " mContext = " + mContext, Toast.LENGTH_LONG).show();
+
         // The isPresent() helper method is only available on Gingerbread or above.
         mGeocoderAvailable =
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD && Geocoder.isPresent();
@@ -306,15 +302,12 @@ public class GPSService extends Service implements LocationListener {
 	    	  maximum = Math.max(total_acc, maximum);
 	    	  
 	    	  if (total_acc > 3){
-	    		  Toast.makeText(mContext, "Bumpin' ", Toast.LENGTH_SHORT).show();
-	    		  	    		  
 	    		  startDistanceAdder(mDistance);
-	    		  
-	    		  Intent dialogIntent = new Intent(mContext, LockScreen.class);
-	    		  dialogIntent.setAction(Intent.ACTION_VIEW);
-	    		  dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	    		  dialogIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-	    		  mContext.startActivity(dialogIntent);
+	    		  Intent intent = new Intent(mContext, safecommute.main.LockScreen.class);
+	    		  intent.setAction(Intent.ACTION_VIEW);
+	    		  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	    		  intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+	    		  mContext.startActivity(intent);	    		  
 	    	  }
   	  }
   	}
