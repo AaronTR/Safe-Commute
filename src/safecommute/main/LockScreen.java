@@ -254,7 +254,7 @@ public class LockScreen extends Activity {
 		startActivity(intent);		
 	}
 	
-	void showMovement(ImageView pic, int positionIndex) { // Open Bluetooth
+	void showMovement(ImageView pic, int positionIndex) { // Open Movement
 		Intent intent = new Intent(this, GPS.class);
 		intent.putExtra("index", positionIndex);
 		intent.putExtra("title", pic.toString());

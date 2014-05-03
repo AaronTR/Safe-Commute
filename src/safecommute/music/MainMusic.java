@@ -57,31 +57,7 @@ public class MainMusic extends Activity implements OnCompletionListener, SeekBar
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.player);
 		
-		
-		/* Resize logo */
-        Display display = getWindowManager().getDefaultDisplay(); 
-		int screenWidth = display.getWidth();  // screen width
-		int screenHeight = display.getHeight();  // screen height			
-		int titleHeight = screenHeight/5;
-		int titleWidth = screenWidth/4;
-	
-		// Assigning table rows
-		final TableRow titlerow = (TableRow)findViewById(R.id.titlerow);
-		
-		TableRow.LayoutParams titleParams = new TableRow.LayoutParams(
-			    titleWidth, titleHeight);
-		titleParams.span = 3;
-		
-		// Adding logo
-		ImageView title = new ImageView(this);
-		title.setImageResource(R.drawable.logo);		
-		title.setLayoutParams(titleParams);
-		title.setScaleType(ImageView.ScaleType.FIT_CENTER);		
-		titlerow.addView(title);
-		
-		
-		
-		
+				
 		// All player buttons
 		btnPlay = (ImageButton) findViewById(R.id.btnPlay);
 		btnForward = (ImageButton) findViewById(R.id.btnForward);

@@ -6,19 +6,6 @@
     android:layout_height="match_parent" 
     android:background="#4a4a4a"> 
     
-    <TableLayout 
-    android:layout_width="match_parent" 
-    android:layout_height="match_parent"
-    android:shrinkColumns="*"  android:stretchColumns="*" android:background="#000" > 
-	    <!-- LOGO -->
-	    <TableRow 
-	        android:id="@+id/titlerow"
-	        android:layout_height="wrap_content" 
-	        android:layout_width="fill_parent"
-	        android:gravity="center_horizontal" >
-	    </TableRow>
-    </TableLayout>
-    
     <!-- Player Header -->
     <LinearLayout 
         android:id="@+id/player_header_bg"
