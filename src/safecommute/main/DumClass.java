@@ -16,9 +16,7 @@ public class DumClass extends Activity{
 	@Override 
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		Toast.makeText(this, "DUMMY WORKS", Toast.LENGTH_SHORT).show();
-		
+				
 		LocIntent = new Intent(this, GPSService.class);
 		startService(LocIntent);
 		loc = new GPSService(this);
