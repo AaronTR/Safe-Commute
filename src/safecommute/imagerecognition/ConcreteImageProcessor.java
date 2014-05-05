@@ -1,21 +1,23 @@
 package safecommute.imagerecognition;
 
-import org.opencv.android.Utils;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
+import org.opencv.core.CvException;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfDMatch;
 import org.opencv.core.MatOfKeyPoint;
-import org.opencv.core.Scalar;
+import org.opencv.features2d.DMatch;
 import org.opencv.features2d.DescriptorExtractor;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
-import org.opencv.features2d.Features2d;
-import org.opencv.imgproc.Imgproc;
 
 import safecommute.main.R;
-
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 public class ConcreteImageProcessor implements ImageProcessor{
 
@@ -106,7 +108,12 @@ public class ConcreteImageProcessor implements ImageProcessor{
 
 	public static final String TAG = "image_processor";
 	
+	private static final String ASSET_BASE = "";
+	private static final int[] JSON_IDS = {R.raw.testjson_0, R.raw.testjson_1, R.raw.testjson_2, R.raw.testjson_3};
+	private static final int MATCH_THRESHOLD = 100;
+	
 	private Context mContext;
+	private MatrixConverter mConverter;
 	private DescriptorExtractor mExtractor;
 	private DescriptorMatcher mMatcher;
 	private FeatureDetector mDetector;
@@ -115,28 +122,81 @@ public class ConcreteImageProcessor implements ImageProcessor{
 	//just for alpha
 	private Bitmap comparisonImage;
 	
-	public ConcreteImageProcessor(Context context, int extractorType, int matcherType, int detectorType) {
+	
+	public ConcreteImageProcessor(Context context, MatrixConverter converter, int extractorType, int matcherType, int detectorType) {
 		mContext = context;
+		mConverter = converter;
 		mExtractor = DescriptorExtractor.create(extractorType);
 		mMatcher = DescriptorMatcher.create(matcherType);
 		mDetector = FeatureDetector.create(detectorType);
 	}
 	
+	
+	/* Decided that our best option is to load images from json files in assets
+	 * this now returns the best found similarity percentage based on the calculate function
+	 */
 	@Override
-	public void processAgainstOneImage(Image image) {
+	public double processAgainstAllImages(Image image) {
+		double bestPercentage = 0;
 		
-		//testing purposes only
-		Drawable testDraw = mContext.getResources().getDrawable(R.drawable.testplane);
-		Image testImage = new Image(testDraw);
-		Mat testMat = image.toMat();
-		MatOfKeyPoint testKeypoints = new MatOfKeyPoint();
-		mDetector.detect(testMat, testKeypoints);
-		Mat testDesc = new Mat();
-		mExtractor.compute(testMat, testKeypoints, testDesc);
-		testKeypoints.release();
-		testMat.release();
-		
-		Mat imageMat = image.toMat();
+		Mat newDescriptors = computeImageDescriptors(image.toMat());
+		for(int i=0; i < JSON_IDS.length; i++) {
+			String json = "";
+			try {
+				json = loadJsonFromResources(mContext, JSON_IDS[i]);
+				Log.d(TAG, json);
+				Mat testImage = mConverter.convertToMatrix(json);
+				Log.d(TAG, testImage.toString());
+				double percentMatch = 0;
+				Mat testDescriptors = null;
+				MatOfDMatch matches = null;
+				try {
+					testDescriptors = computeImageDescriptors(testImage);
+					
+					matches = getMatchesFromDescriptors(newDescriptors, testDescriptors);
+					percentMatch = calculateSimilarityPercentage(matches);
+				}
+				catch (CvException e) {
+					e.printStackTrace();
+				}
+				finally {
+					if(matches != null){ matches.release(); }
+					if(testDescriptors != null) { testDescriptors.release(); }
+				}
+				
+				if(percentMatch > bestPercentage) {
+					bestPercentage = percentMatch;
+				}
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		return bestPercentage;
+	}
+
+	@Override
+	public double calculateSimilarityPercentage(MatOfDMatch matches) {
+		int size = matches.cols() * matches.rows();
+		int numGoodMatches = 0;
+		List<DMatch> matchList = matches.toList();
+		for(DMatch match : matchList) {
+			if(match.distance < MATCH_THRESHOLD) {
+				numGoodMatches++;
+			}
+		}
+		return (double)(numGoodMatches/size*100);
+	}
+
+	@Override
+	public Image resizeImage(Image image) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public Mat computeImageDescriptors(Mat imageMat) {
 		MatOfKeyPoint keypoints = new MatOfKeyPoint();
 		mDetector.detect(imageMat, keypoints);
 		Mat descriptors = new Mat();
@@ -144,29 +204,39 @@ public class ConcreteImageProcessor implements ImageProcessor{
 		keypoints.release();
 		imageMat.release();
 		
+		return descriptors;
+	}
+	
+	private MatOfDMatch getMatchesFromDescriptors(Mat descOne, Mat descTwo) {
 		MatOfDMatch matches = new MatOfDMatch();
-		mMatcher.match(testDesc, descriptors, matches);
-		matches.release();
-		descriptors.release();
-		testDesc.release();
+		mMatcher.match(descOne, descTwo, matches);
+		descOne.release();
+		descTwo.release();
 		
+		return matches;
+	}
+	
+	private String loadJsonFromResources(Context context, int id) throws IOException{
+		InputStream is = context.getResources().openRawResource(id);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+		int counter;
+		String json = null;
+		try {
+		    counter = is.read();
+		    while (counter != -1) {
+		        baos.write(counter);
+		        counter = is.read();
+		    }
+		    json = baos.toString();
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+		finally {
+			baos.close();
+			is.close();
+		}
 		
-	}
-
-	@Override
-	public void processAgainstAllImages(Image image) {
-		// TODO repeated AgainstOne
-	}
-
-	@Override
-	public double calculateSimilarityPercentage() {
-		// TODO Auto-generated method stub
-		return 100.0;
-	}
-
-	@Override
-	public Image resizeImage(Image image) {
-		// TODO Auto-generated method stub
-		return null;
+		return json;
 	}
 }
