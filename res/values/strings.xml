@@ -12,5 +12,6 @@
     
     <string name="wifi_only"> GPS Disabled. Using WiFi only.</string>
     <string name="not_support_network">Network provider not supported</string>
+    <string name="call">Call Emergency Contact</string>
 
 </resources>

@@ -8,13 +8,29 @@
         android:minSdkVersion="11"
         android:targetSdkVersion="19" />
     
+    <!-- Used for GPS on startup -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    
+    <!-- Used for Maps -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+	<!-- The following two permissions are not required to use
+     	Google Maps Android API v2, but are recommended. -->
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    
+    <!-- Used for Bluetooth -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.CAMERA" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.CALL_PHONE" />
+
 	
+	<!-- Used for Image Recognition -->
 	<uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -32,22 +48,45 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_safecommute"
         android:label="@string/app_name"
-        android:theme="@style/CustomTheme" >
-        <activity
-            android:name="safecommute.main.LockScreen"
-            android:label="@string/app_name" >
+        android:theme="@style/CustomTheme" >        
+        <activity android:name="safecommute.main.DumClass" android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <!-- The following metadata is used for Google Maps -->
+        <meta-data 
+    		android:name="com.google.android.maps.v2.API_KEY"
+    		android:value="AIzaSyC7Qr2tfRx2aO2EENkCuWPKZg5roPU4_Kk" />
+        <meta-data android:name="com.google.android.gms.version"
+           		android:value="@integer/google_play_services_version" />
+
+        <activity android:name="safecommute.main.LockScreen" />
         <activity android:name="safecommute.main.LockScreen$DetailsActivity" />
         <activity android:name="safecommute.bluetooth.BluetoothActivity" />
         <activity android:name="safecommute.movement.GPS" />
+        <service android:name="safecommute.movement.GPSService" android:label="GPSService" >
+            <intent-filter>
+        		<action android:name="safecommute.movement.GPSService" />
+    		</intent-filter> 
+		</service>
+		<receiver
+		    android:name="safecommute.movement.StartAtBootReceiver"
+		    android:enabled="true"
+		    android:label="StartAtBootReceiver">
+    		<intent-filter>
+        		<action android:name="android.intent.action.BOOT_COMPLETED" />
+        		<category android:name="android.intent.category.DEFAULT" />
+    		</intent-filter>
+		</receiver>
+        <activity android:name="safecommute.main.Maps" />
+        <activity android:name="safecommute.music.PlayListActivity" /> <!-- For Music -->
+        <activity android:name="safecommute.music.MainMusic" /> <!-- For Music -->
         <activity 
             android:name="safecommute.imagerecognition.CameraActivity"
-            android:screenOrientation="landscape" />
-        
+            android:screenOrientation="landscape" /> 
+        <activity android:name="safecommute.main.EmergencyCall" /> <!-- For ECalls -->
     </application>
 </manifest>

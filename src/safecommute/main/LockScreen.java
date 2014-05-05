@@ -4,6 +4,8 @@ import java.io.InputStream;
 import safecommute.bluetooth.BluetoothActivity;
 import safecommute.imagerecognition.CameraActivity;
 import safecommute.movement.GPS;
+//import safecommute.movement.GPSService;
+import safecommute.music.MainMusic;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +25,8 @@ import android.widget.Toast;
 
 public class LockScreen extends Activity {
 	
+	private Intent LocIntent = null;
+	//public static GPSService loc = null;
 	public static final int CAMERA_REQUEST_CODE = 24;
 
 	@Override
@@ -32,7 +36,12 @@ public class LockScreen extends Activity {
 		setContentView(R.layout.lockscreen_main);	
 		scalingImages(); // adds tags to all images
 		scalingTexts();	
+
 	}	
+	
+	public void onBackPressed() { // disable back button 
+	    // Do Here what ever you want do on back press;
+	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -62,7 +71,7 @@ public class LockScreen extends Activity {
 		
 		// Format and add "Passenger Unlock" text
 		TextView passengertext = new TextView(this);
-		passengertext.setText(R.string.passenger_unlock);
+		//passengertext.setText(R.string.passenger_unlock);
 		passengertext.setLayoutParams(textParams);
 		passengertext.setGravity(Gravity.CENTER);
 		passengertext.setTextColor(Color.WHITE);
@@ -72,7 +81,7 @@ public class LockScreen extends Activity {
 		
 		// Format and add "Available Applications" text
 		TextView appstext = new TextView(this);
-		appstext.setText(R.string.available_apps);
+		//appstext.setText(R.string.available_apps);
 		appstext.setLayoutParams(textParams);
 		appstext.setGravity(Gravity.CENTER);
 		appstext.setTextColor(Color.WHITE);
@@ -82,7 +91,7 @@ public class LockScreen extends Activity {
 		
 		// Format and add "Emergency" text
 		TextView emergencytext = new TextView(this);
-		emergencytext.setText(R.string.emergency_contacts);
+		//emergencytext.setText(R.string.emergency_contacts);
 		emergencytext.setLayoutParams(textParams);
 		emergencytext.setGravity(Gravity.CENTER);
 		emergencytext.setTextColor(Color.WHITE);
@@ -142,8 +151,6 @@ public class LockScreen extends Activity {
 		settingsimage.setOnClickListener(new OnClickListener() { // Onclick for settings image
 			@Override
             public void onClick(View arg0) {
-                Toast.makeText(LockScreen.this, ""+settingsimage.getTag(),
-                        Toast.LENGTH_SHORT).show();
                 showMovement(settingsimage, (Integer) settingsimage.getTag());
 			}
 		});	
@@ -157,19 +164,7 @@ public class LockScreen extends Activity {
 		musicimage.setOnClickListener(new OnClickListener() { // Onclick for music image
 			@Override
             public void onClick(View arg0) {
-                /* Toast.makeText(LockScreen.this, ""+ musicimage.getTag(),
-                        Toast.LENGTH_SHORT).show();
-                showFragment(musicimage, (Integer) musicimage.getTag()); */
-				
-				/*Intent intent = new Intent();  
-	            intent.setAction(android.content.Intent.ACTION_VIEW);  
-	            File file = new File(MediaStore.Audio.Media.DATA);  
-	            intent.setDataAndType(Uri.fromFile(file), "audio/*");  
-	            startActivity(intent);*/
-				
-				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse("market://details?id=com.example.android"));
-				startActivity(intent);
+                showMusic(musicimage, (Integer) musicimage.getTag());
             }
 		});	
 		position++;
@@ -182,9 +177,7 @@ public class LockScreen extends Activity {
 		mapsimage.setOnClickListener(new OnClickListener() { // Onclick for maps image
 			@Override
             public void onClick(View arg0) {
-                Toast.makeText(LockScreen.this, ""+mapsimage.getTag(),
-                        Toast.LENGTH_SHORT).show();
-                showFragment(mapsimage, (Integer) mapsimage.getTag());
+                showMap(mapsimage, (Integer) mapsimage.getTag());
             }
 		});	
 		position++;
@@ -211,8 +204,6 @@ public class LockScreen extends Activity {
 		bluetoothimage.setOnClickListener(new OnClickListener() { // Onclick for bluetooth image
 			@Override
             public void onClick(View arg0) {
-                Toast.makeText(LockScreen.this, ""+bluetoothimage.getTag(),
-                        Toast.LENGTH_SHORT).show();
                 showBluetooth(bluetoothimage, (Integer) bluetoothimage.getTag());
             }
 		});
@@ -226,59 +217,71 @@ public class LockScreen extends Activity {
 		emergencyimagerow.addView(emergencyimage);
 		emergencyimage.setOnClickListener(new OnClickListener() { // Onclick for emergency image
 			@Override
-            public void onClick(View arg0) {
-                Toast.makeText(LockScreen.this, ""+emergencyimage.getTag(),
-                        Toast.LENGTH_SHORT).show();
-                
-                showFragment(emergencyimage, (Integer) emergencyimage.getTag());
+            public void onClick(View arg0) { 
+				showPhoneCall(emergencyimage, (Integer) emergencyimage.getTag());
             }
 		});	
 				
 	}
 	
-	void showMovement(ImageView pic, int positionIndex) { // Open Bluetooth
-		
-		Intent intent = new Intent(this, GPS.class);
-		
+	void showFragment(ImageView pic, int positionIndex) { // Generic
+		// We need to launch a new activity to display
+			// the dialog fragment with selected text.
+
+			// Create an intent for starting the DetailsActivity
+			Intent intent = new Intent(this, DetailsActivity.class);
+
+			// explicitly set the activity context and class
+			// associated with the intent (context, class)
+			//intent.setClass(LockScreen.CONTEXT_IGNORE_SECURITY, LockScreen.DetailsActivity.class);
+			
+			// pass the current position
+			intent.putExtra("index", positionIndex);
+			intent.putExtra("title", pic.toString());
+
+			startActivity(intent);
+	}
+	
+	void showMusic (ImageView pic, int positionIndex) { // Open Music Player
+		Intent intent = new Intent(this, MainMusic.class);
 		intent.putExtra("index", positionIndex);
 		intent.putExtra("title", pic.toString());
-		
+		startActivity(intent);	
+	}
+	
+	void showMap(ImageView pic, int positionIndex) { // Open Google Maps
+		Intent intent = new Intent(this, Maps.class);
+		intent.putExtra("index", positionIndex);
+		intent.putExtra("title", pic.toString());
 		startActivity(intent);		
+	}
+	
+	void showMovement(ImageView pic, int positionIndex) { // Open Movement
+//		Intent intent = new Intent(this, GPS.class);
+//		intent.putExtra("index", positionIndex);
+//		intent.putExtra("title", pic.toString());
+//		startActivity(intent);	
+		finish();
+		System.exit(0);
 	}
 	
 	void showBluetooth(ImageView pic, int positionIndex) { // Open Bluetooth
-		
-		Intent intent = new Intent(this, BluetoothActivity.class);
-		
+		Intent intent = new Intent(this, BluetoothActivity.class);		
 		intent.putExtra("index", positionIndex);
-		intent.putExtra("title", pic.toString());
-		
-		Toast.makeText(getApplicationContext(), "class name: " + BluetoothActivity.class, Toast.LENGTH_SHORT).show();
-		
+		intent.putExtra("title", pic.toString());		
+		Toast.makeText(getApplicationContext(), "class name: " + BluetoothActivity.class, Toast.LENGTH_SHORT).show();		
 		startActivity(intent);		
-	}
-	
-    void showFragment(ImageView pic, int positionIndex) {
-    		// We need to launch a new activity to display
- 			// the dialog fragment with selected text.
-
- 			// Create an intent for starting the DetailsActivity
- 			Intent intent = new Intent(this, DetailsActivity.class);
-
- 			// explicitly set the activity context and class
- 			// associated with the intent (context, class)
- 			//intent.setClass(LockScreen.CONTEXT_IGNORE_SECURITY, LockScreen.DetailsActivity.class);
- 			
- 			// pass the current position
- 			intent.putExtra("index", positionIndex);
- 			intent.putExtra("title", pic.toString());
-
- 			startActivity(intent);
-    }
+	}	
+    
     
     public void showCameraView(ImageView pic, int positionIndex) {
     	Intent intent = new Intent(this, CameraActivity.class);
     	startActivityForResult(intent, CAMERA_REQUEST_CODE);
+    }
+    
+    void showPhoneCall(ImageView pic, int positionIndex) {
+    	Intent intent = new Intent(this, EmergencyCall.class);
+    	startActivity(intent);
     }
     
     @Override
@@ -295,6 +298,7 @@ public class LockScreen extends Activity {
     		}
     	}
     }
+   
 
 	
 	public static class DetailsActivity extends Activity {

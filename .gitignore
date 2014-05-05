@@ -73,6 +73,8 @@ local.properties
 # PDT-specific
 .buildpath
 
+#Local path specific
+project.properties
 
 ######################
 # Android
