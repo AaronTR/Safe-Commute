@@ -1,4 +1,6 @@
 package safecommute.main;
+import java.io.InputStream;
+
 import safecommute.bluetooth.BluetoothActivity;
 import safecommute.imagerecognition.CameraActivity;
 import safecommute.movement.GPS;
@@ -26,7 +28,7 @@ public class LockScreen extends Activity {
 	private Intent LocIntent = null;
 	//public static GPSService loc = null;
 	public static final int CAMERA_REQUEST_CODE = 24;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
@@ -272,7 +274,7 @@ public class LockScreen extends Activity {
 	}	
     
     
-    void showCameraView(ImageView pic, int positionIndex) {
+    public void showCameraView(ImageView pic, int positionIndex) {
     	Intent intent = new Intent(this, CameraActivity.class);
     	startActivityForResult(intent, CAMERA_REQUEST_CODE);
     }

@@ -28,6 +28,7 @@
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.CAMERA" />
 	<uses-permission android:name="android.permission.CALL_PHONE" />
+
 	
 	<!-- Used for Image Recognition -->
 	<uses-feature
