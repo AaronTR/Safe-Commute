@@ -3,11 +3,13 @@ package safecommute.imagerecognition;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import org.opencv.core.CvException;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfDMatch;
 import org.opencv.core.MatOfKeyPoint;
+import org.opencv.features2d.DMatch;
 import org.opencv.features2d.DescriptorExtractor;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
@@ -108,6 +110,7 @@ public class ConcreteImageProcessor implements ImageProcessor{
 	
 	private static final String ASSET_BASE = "";
 	private static final int[] JSON_IDS = {R.raw.testjson_0, R.raw.testjson_1, R.raw.testjson_2, R.raw.testjson_3};
+	private static final int MATCH_THRESHOLD = 100;
 	
 	private Context mContext;
 	private MatrixConverter mConverter;
@@ -131,7 +134,6 @@ public class ConcreteImageProcessor implements ImageProcessor{
 	
 	/* Decided that our best option is to load images from json files in assets
 	 * this now returns the best found similarity percentage based on the calculate function
-	 * @see safecommute.imagerecognition.ImageProcessor#processAgainstOneImage(safecommute.imagerecognition.Image, java.lang.String)
 	 */
 	@Override
 	public double processAgainstAllImages(Image image) {
@@ -146,14 +148,20 @@ public class ConcreteImageProcessor implements ImageProcessor{
 				Mat testImage = mConverter.convertToMatrix(json);
 				Log.d(TAG, testImage.toString());
 				double percentMatch = 0;
+				Mat testDescriptors = null;
+				MatOfDMatch matches = null;
 				try {
-					Mat testDescriptors = computeImageDescriptors(testImage);
+					testDescriptors = computeImageDescriptors(testImage);
 					
-					MatOfDMatch matches = getMatchesFromDescriptors(newDescriptors, testDescriptors);
+					matches = getMatchesFromDescriptors(newDescriptors, testDescriptors);
 					percentMatch = calculateSimilarityPercentage(matches);
 				}
 				catch (CvException e) {
 					e.printStackTrace();
+				}
+				finally {
+					if(matches != null){ matches.release(); }
+					if(testDescriptors != null) { testDescriptors.release(); }
 				}
 				
 				if(percentMatch > bestPercentage) {
@@ -170,8 +178,15 @@ public class ConcreteImageProcessor implements ImageProcessor{
 
 	@Override
 	public double calculateSimilarityPercentage(MatOfDMatch matches) {
-		
-		return 100.0;
+		int size = matches.cols() * matches.rows();
+		int numGoodMatches = 0;
+		List<DMatch> matchList = matches.toList();
+		for(DMatch match : matchList) {
+			if(match.distance < MATCH_THRESHOLD) {
+				numGoodMatches++;
+			}
+		}
+		return (double)(numGoodMatches/size*100);
 	}
 
 	@Override
