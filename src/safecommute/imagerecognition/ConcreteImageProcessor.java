@@ -1,21 +1,21 @@
 package safecommute.imagerecognition;
 
-import org.opencv.android.Utils;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.opencv.core.CvException;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfDMatch;
 import org.opencv.core.MatOfKeyPoint;
-import org.opencv.core.Scalar;
 import org.opencv.features2d.DescriptorExtractor;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
-import org.opencv.features2d.Features2d;
-import org.opencv.imgproc.Imgproc;
 
-import safecommute.main.LockScreen;
 import safecommute.main.R;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 public class ConcreteImageProcessor implements ImageProcessor{
 
@@ -107,10 +107,10 @@ public class ConcreteImageProcessor implements ImageProcessor{
 	public static final String TAG = "image_processor";
 	
 	private static final String ASSET_BASE = "";
-	private static final String[] MATRIX_TAGS = {"test1.json", "test2.json", "test3.json"};
+	private static final int[] JSON_IDS = {R.raw.testjson_0, R.raw.testjson_1, R.raw.testjson_2, R.raw.testjson_3};
 	
 	private Context mContext;
-	private JSONAssetLoader mLoader;
+	private MatrixConverter mConverter;
 	private DescriptorExtractor mExtractor;
 	private DescriptorMatcher mMatcher;
 	private FeatureDetector mDetector;
@@ -120,9 +120,9 @@ public class ConcreteImageProcessor implements ImageProcessor{
 	private Bitmap comparisonImage;
 	
 	
-	public ConcreteImageProcessor(Context context, JSONAssetLoader loader, int extractorType, int matcherType, int detectorType) {
+	public ConcreteImageProcessor(Context context, MatrixConverter converter, int extractorType, int matcherType, int detectorType) {
 		mContext = context;
-		mLoader = loader;
+		mConverter = converter;
 		mExtractor = DescriptorExtractor.create(extractorType);
 		mMatcher = DescriptorMatcher.create(matcherType);
 		mDetector = FeatureDetector.create(detectorType);
@@ -135,29 +135,42 @@ public class ConcreteImageProcessor implements ImageProcessor{
 	 */
 	@Override
 	public double processAgainstAllImages(Image image) {
-		double bestPercentage = 100.0;
+		double bestPercentage = 0;
 		
-//		Mat newDescriptors = computeImageDescriptors(image.toMat());
-//		for(int i=0; i < MATRIX_TAGS.length; i++) {
-//			Mat testImage = mLoader.loadMatrix(MATRIX_TAGS[i]);
-//			Mat testDescriptors = computeImageDescriptors(testImage);
-//			
-//			MatOfDMatch matches = getMatchesFromDescriptors(newDescriptors, testDescriptors);
-//			double percentMatch = calculateSimilarityPercentage(matches);
-//			
-//			if(percentMatch > bestPercentage) {
-//				bestPercentage = percentMatch;
-//			}
-//		}
 		Mat newDescriptors = computeImageDescriptors(image.toMat());
-		mLoader.saveMatrix(newDescriptors, Integer.toString(LockScreen.imageTag));
-		LockScreen.imageTag++;
+		for(int i=0; i < JSON_IDS.length; i++) {
+			String json = "";
+			try {
+				json = loadJsonFromResources(mContext, JSON_IDS[i]);
+				Log.d(TAG, json);
+				Mat testImage = mConverter.convertToMatrix(json);
+				Log.d(TAG, testImage.toString());
+				double percentMatch = 0;
+				try {
+					Mat testDescriptors = computeImageDescriptors(testImage);
+					
+					MatOfDMatch matches = getMatchesFromDescriptors(newDescriptors, testDescriptors);
+					percentMatch = calculateSimilarityPercentage(matches);
+				}
+				catch (CvException e) {
+					e.printStackTrace();
+				}
+				
+				if(percentMatch > bestPercentage) {
+					bestPercentage = percentMatch;
+				}
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		}
 		return bestPercentage;
 	}
 
 	@Override
 	public double calculateSimilarityPercentage(MatOfDMatch matches) {
-		// TODO Auto-generated method stub
+		
 		return 100.0;
 	}
 
@@ -186,5 +199,29 @@ public class ConcreteImageProcessor implements ImageProcessor{
 		descTwo.release();
 		
 		return matches;
+	}
+	
+	private String loadJsonFromResources(Context context, int id) throws IOException{
+		InputStream is = context.getResources().openRawResource(id);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+		int counter;
+		String json = null;
+		try {
+		    counter = is.read();
+		    while (counter != -1) {
+		        baos.write(counter);
+		        counter = is.read();
+		    }
+		    json = baos.toString();
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+		finally {
+			baos.close();
+			is.close();
+		}
+		
+		return json;
 	}
 }

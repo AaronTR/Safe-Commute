@@ -5,8 +5,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.opencv.android.Utils;
+import org.opencv.core.Core;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 
+import android.content.Context;
 import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
@@ -16,24 +20,27 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 /* Uses googles gson library to load json images from assets */
-public class JSONAssetLoader implements AssetLoader{
+public class JSONMatrixConverter implements MatrixConverter{
 	
-	private static final String TAG = "json_loader";
+	private static final String TAG = "json_converter";
 
 	@Override
-	public Mat loadMatrix(String path) {
-		String json = "";
+	public Mat convertToMatrix(String json) {
 		JsonParser parser = new JsonParser();
 		JsonObject JsonObject = parser.parse(json).getAsJsonObject();
 
 	    int rows = JsonObject.get("rows").getAsInt();
 	    int cols = JsonObject.get("cols").getAsInt();
-	    int type = JsonObject.get("type").getAsInt();
 
-	    String dataString = JsonObject.get("data").getAsString();       
-	    byte[] data = Base64.decode(dataString.getBytes(), Base64.DEFAULT); 
-
-	    Mat mat = new Mat(rows, cols, type);
+	    String dataString = JsonObject.get("data").getAsString();
+	    
+	    //json is encoded in hex since it cannot store binary data
+	    byte[] data = Base64.decode(dataString.getBytes(), Base64.DEFAULT);
+	    Log.d(TAG, "data size: " + data.length);
+	    Log.d(TAG, "type: " + CvType.CV_8U);
+	    
+	    
+	    Mat mat = new Mat(rows, cols, CvType.CV_8U);
 	    mat.put(0, 0, data);
 
 	    return mat;
@@ -68,7 +75,7 @@ public class JSONAssetLoader implements AssetLoader{
 	        
 	        File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "jsons");
 	        dir.mkdirs();
-	        File file = new File(dir, "testJson_" + tag + ".txt");
+	        File file = new File(dir, "testJson_0" + ".txt");
 	        
 	        try {
 	        	saveDataWithFileStream(file, json);

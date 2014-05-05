@@ -123,7 +123,7 @@ public class CameraActivity extends Activity implements CvCameraViewListener2, O
 	public boolean onTouch(View v, MotionEvent event) {
 			
 		ImageProcessor processor = new ConcreteImageProcessor(getApplicationContext() 
-					, new JSONAssetLoader(), EXTRACTOR_ID, MATCHER_ID, DETECTOR_ID);
+					, new JSONMatrixConverter(), EXTRACTOR_ID, MATCHER_ID, DETECTOR_ID);
 		new AsyncImageProcessor(this).execute(processor);
 
         return false;

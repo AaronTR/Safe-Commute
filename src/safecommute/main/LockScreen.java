@@ -1,8 +1,11 @@
 package safecommute.main;
+import java.io.InputStream;
+
 import safecommute.bluetooth.BluetoothActivity;
 import safecommute.imagerecognition.CameraActivity;
 import safecommute.movement.GPS;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -21,10 +24,7 @@ import android.widget.Toast;
 public class LockScreen extends Activity {
 	
 	public static final int CAMERA_REQUEST_CODE = 24;
-	
-	//delete this shit
-	public static int imageTag = 0;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
@@ -276,7 +276,7 @@ public class LockScreen extends Activity {
  			startActivity(intent);
     }
     
-    void showCameraView(ImageView pic, int positionIndex) {
+    public void showCameraView(ImageView pic, int positionIndex) {
     	Intent intent = new Intent(this, CameraActivity.class);
     	startActivityForResult(intent, CAMERA_REQUEST_CODE);
     }
