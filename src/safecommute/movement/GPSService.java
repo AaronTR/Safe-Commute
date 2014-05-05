@@ -21,7 +21,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -69,23 +68,7 @@ public class GPSService extends Service implements LocationListener {
     @SuppressLint("NewApi")
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate();
-        /**
-        // The isPresent() helper method is only available on Gingerbread or above.
-        mGeocoderAvailable =
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD && Geocoder.isPresent();
-
-        // Get a reference to the LocationManager object.
-        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-
-        Toast.makeText(mContext, "Starting Setup", Toast.LENGTH_SHORT).show();
-        */
-        //mSensorManager.registerListener(accelerationListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
-
-        
-        setup();
-        
+        setup();        
     }
     
     public void setup() {
@@ -93,27 +76,15 @@ public class GPSService extends Service implements LocationListener {
         Location networkLocation = null;
         mLocationManager.removeUpdates(listener);
         if(!mDistanceAdd)
-
-        // Get fine location updates only.        
-/**        if (mUseFine) {
-            // Request updates from just the fine (gps) provider.
-            gpsLocation = requestUpdatesFromProvider(
-                    LocationManager.GPS_PROVIDER, R.string.not_support_gps);
-        } 
-        else if (mUseBoth) {
-            // Get coarse and fine location updates.
-*/            // Request upFdates from both fine (gps) and coarse (network) providers.
             gpsLocation = requestUpdatesFromProvider(
                     LocationManager.GPS_PROVIDER, R.string.wifi_only);
             networkLocation = requestUpdatesFromProvider(
-                    LocationManager.NETWORK_PROVIDER, R.string.not_support_network);
-            
+                    LocationManager.NETWORK_PROVIDER, R.string.not_support_network);           
             useAcc = true;
             maximum = 0;
             
             mSensorManager.registerListener(accelerationListener, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
     		Toast.makeText(mContext, "Service Succesfully Started, shake phone to start app.", Toast.LENGTH_SHORT).show();
-
     }
 
     private Location requestUpdatesFromProvider(final String provider, final int errorResId) {
@@ -139,11 +110,9 @@ public class GPSService extends Service implements LocationListener {
 
         // Get a reference to the LocationManager object.
         mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-
         mSensorManager = (SensorManager) mContext.getSystemService(Context.SENSOR_SERVICE);
         
-        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-        
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);        
         setup();
 
 	}
@@ -152,11 +121,9 @@ public class GPSService extends Service implements LocationListener {
 		try {
 			locationManager = (LocationManager) mContext
 					.getSystemService(LOCATION_SERVICE);
-
 			// getting GPS status
 			isGPSEnabled = locationManager
 					.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
 			// getting network status
 			isNetworkEnabled = locationManager
 					.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -236,39 +203,21 @@ public class GPSService extends Service implements LocationListener {
 	public boolean canGetLocation() {
 		return this.canGetLocation;
 	}
-/**
-	@Override
-	public void onLocationChanged(Location location) {
-		latitude = location.getLatitude();
-		longitude = location.getLongitude();
-		long time2 = System.currentTimeMillis();
-    	if (mDistanceAdd)
-    		updateDistance(location, firstLocation, time1, time2);
-        firstLocation = location;
-        time1 = time2;
-	}
-*/
+
     private void updateDistance(Location location1, Location location2, long timeStart, long timeFinish){
-    	Toast.makeText(mContext, "Updating Distance...", Toast.LENGTH_SHORT).show();
     	totalDistance = location1.distanceTo(location2);
     	float timeDiff = (timeFinish-timeStart)/(1000);
     	float velocity = totalDistance/timeDiff;
     	
     	if(velocity > 1){
-//    	if(velocity > 6.7056){
+//    	if(velocity > 6.7056){ //ACTUAL AMOUNT, RUNNING LOWER THRESHOLD FOR PRESO
     		Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
     		Ringtone r = RingtoneManager.getRingtone(mContext, notification);
-    		r.play();
-    		
-    		
+    		r.play();  		
     		Toast.makeText(mContext, "YOU ARE GOING " + velocity + " m/s!!!", Toast.LENGTH_LONG).show();
 			stopDistanceAdder(mDistance);
-			//startActivity(mainActivity)
-			//at top include package that mainactivity is in
-			//instantiate an object: MainActiviy main = new MainActivity();
     	}
     	else{
-    		Toast.makeText(mContext, "time: " + timeDiff + " seconds", Toast.LENGTH_LONG).show();
     	}
     }
     
@@ -330,7 +279,6 @@ public class GPSService extends Service implements LocationListener {
 
 public void startDistanceAdder(View v){
 if (!DistanceRunning){
-		Toast.makeText(mContext, "startDistanceAdder begin!", Toast.LENGTH_SHORT).show();
 		useAcc = false;
 		DistanceRunning = true;
     	mDistanceAdd = true;
@@ -344,11 +292,9 @@ if (!DistanceRunning){
     			gps = mLocationManager.getLastKnownLocation(mLocationManager.GPS_PROVIDER);
     			netloc = mLocationManager.getLastKnownLocation(mLocationManager.NETWORK_PROVIDER);
     			if (gps != null){ 
-    				Toast.makeText(mContext, "GPS: " + gps.getLatitude() + ", " + gps.getLongitude(), Toast.LENGTH_SHORT).show();
                     firstLocation = gps;
     			}
                 else if (netloc != null){
-    				Toast.makeText(mContext, "Network: " + netloc.getLatitude() + ", " + netloc.getLongitude(), Toast.LENGTH_SHORT).show();
                     firstLocation = netloc;
                 }
                 else
@@ -399,4 +345,3 @@ public void onLocationChanged(Location location) {
     time1 = time2;}
 
 }
-
